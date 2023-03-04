@@ -11,12 +11,21 @@
 #include "testPosition.h"
 #include "testGround.h"
 
+
+#include "TestPhysics.cpp"
+
 /*****************************************************************
  * TEST RUNNER
  * Runs all the unit tests
  ****************************************************************/
-void testRunner()
-{
-   TestPosition().run();
-   TestGround().run();
-}
+
+class test {
+    public : void testRunner()
+    {
+       TestPosition().run();
+       TestGround().run();
+       
+       TestPhysics tP;
+       tP.test_runner();
+    }
+};

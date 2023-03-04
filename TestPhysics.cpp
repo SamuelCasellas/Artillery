@@ -304,11 +304,3 @@ private:
     
 //
 };
-
-//int main() {
-//    TestPhysics tP;
-//    tP.test_runner();
-//
-//    std::cout << "All tests passed" << std::endl;
-//    return 0;
-//}

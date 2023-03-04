@@ -21,7 +21,7 @@
 #include "physics.h"
 
 // For testing
-#include "TestPhysics.cpp"
+#include "test.cpp"
 
 using namespace std;
 
@@ -159,14 +159,10 @@ int WINAPI wWinMain(
 int main(int argc, char **argv)
 #endif // !_WIN32
 {
-<<<<<<< HEAD
+// <<<<<<< HEAD
+
+//    std::cout << "All tests passed" << std::endl;
     
-    TestPhysics tP;
-    tP.test_runner();
-    
-    
-    std::cout << "All tests passed" << std::endl;
-    return 0;
 //
 //    // create an instance of the physics class
 //    physics p(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/);
@@ -260,21 +256,38 @@ int main(int argc, char **argv)
 //
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////   // Initialize OpenGL
-////   Position ptUpperRight;
-////   ptUpperRight.setPixelsX(700.0);
-////   ptUpperRight.setPixelsY(500.0);
-////   Position().setZoom(40.0 /* 42 meters equals 1 pixel */);
-////   Interface ui(0, NULL,
-////      "Demo",   /* name on the window */
-////      ptUpperRight);
-////
-////   // Initialize the demo
-////   Demo demo(ptUpperRight);
-////
-////   // set everything into action
-////   ui.run(callBack, &demo);
+
+
+
+
+    
+    test t;
+    t.testRunner();
+
+    std::cout << "All tests passed" << std::endl;
+    return 0;
+
+    
+    
+//Initialize OpenGL
+Position ptUpperRight;
+ptUpperRight.setPixelsX(700.0);
+ptUpperRight.setPixelsY(500.0);
+Position().setZoom(40.0 /* 42 meters equals 1 pixel */);
+Interface ui(0, NULL,
+"Demo",   /* name on the window */
+ ptUpperRight);
+
+//Initialize the demo
+Demo demo(ptUpperRight);
+
+//set everything into action
+ui.run(callBack, &demo);
 //
 //
 //   return 0;
-}
+};
+
+
+
+
