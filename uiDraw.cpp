@@ -10,29 +10,28 @@
  *    (variables) or a mixture (objects)
  ************************************************************************/
 
-#include <string>     // need you ask?
-#include <sstream>    // convert an integer into text
-#include <cassert>    // I feel the need... the need for asserts
-#include <time.h>     // for clock
-
+#include <string>  // need you ask?
+#include <sstream> // convert an integer into text
+#include <cassert> // I feel the need... the need for asserts
+#include <time.h>  // for clock
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
-#include <openGL/gl.h>    // Main OpenGL library
-#include <GLUT/glut.h>    // Second OpenGL library
+#include <openGL/gl.h> // Main OpenGL library
+#include <GLUT/glut.h> // Second OpenGL library
 #define GLUT_TEXT GLUT_BITMAP_HELVETICA_18
 #endif // __APPLE__
 
 #ifdef __linux__
-#include <GL/gl.h>        // Main OpenGL library
-#include <GL/glut.h>      // Second OpenGL library
+#include <GL/gl.h>   // Main OpenGL library
+#include <GL/glut.h> // Second OpenGL library
 #define GLUT_TEXT GLUT_BITMAP_HELVETICA_12
 #endif // __linux__
 
 #ifdef _WIN32
 #include <stdio.h>
 #include <stdlib.h>
-#include <GL/glut.h>         // OpenGL library we copied
+#include <GL/glut.h> // OpenGL library we copied
 #define _USE_MATH_DEFINES
 #include <math.h>
 #define GLUT_TEXT GLUT_BITMAP_HELVETICA_12
@@ -50,14 +49,13 @@ using namespace std;
 inline void glResetColor()
 {
    glColor3f((GLfloat)0.0 /* red % */, (GLfloat)0.0 /* green % */, (GLfloat)0.0 /* blue % */);
-}   
-
+}
 
 /*************************************************************************
  * GL VERTEXT POINT
  * Just a more convenient format of glVertext2f
  *************************************************************************/
-inline void glVertexPoint(const Position & pos)
+inline void glVertexPoint(const Position &pos)
 {
    glVertex2f((GLfloat)pos.getPixelsX(), (GLfloat)pos.getPixelsY());
 }
@@ -65,7 +63,7 @@ inline void glVertexPoint(const Position & pos)
 /*************************************************************************
  * DISPLAY the results on the screen
  *************************************************************************/
-void ogstream :: flush()
+void ogstream ::flush()
 {
    string sOut;
    string sIn = str();
@@ -89,7 +87,7 @@ void ogstream :: flush()
       drawText(pos, sOut.c_str());
       pos.addPixelsY(-18);
    }
-   
+
    // reset the buffer
    str("");
 }
@@ -100,7 +98,7 @@ void ogstream :: flush()
  *   INPUT  topLeft   The top left corner of the text
  *          text      The text to be displayed
  ************************************************************************/
-void ogstream :: drawText(const Position & topLeft, const char * text)
+void ogstream ::drawText(const Position &topLeft, const char *text)
 {
    void *pFont = GLUT_TEXT;
 
@@ -118,12 +116,12 @@ void ogstream :: drawText(const Position & topLeft, const char * text)
  *   INPUT  pt     The location of the projectile
  *          age    The age in seconds. The younger, the brighter
  *************************************************************************/
-void ogstream :: drawProjectile(const Position& pos, double age)
+void ogstream ::drawProjectile(const Position &pos, double age)
 {
    const double tailLength = 5.0;
 
    GLfloat color = (GLfloat)(age / tailLength);
-   
+
    Position posBegin;
    Position posEnd;
    posBegin.setPixelsX(pos.getPixelsX() - 1.5);
@@ -140,8 +138,8 @@ void ogstream :: drawProjectile(const Position& pos, double age)
  *          end       The position of the end of the line
  *          r/g/b     The color of the line to be drawn
  *************************************************************************/
-void ogstream :: drawLine(const Position & begin, const Position & end,
-              double red, double green, double blue)
+void ogstream ::drawLine(const Position &begin, const Position &end,
+                         double red, double green, double blue)
 {
    // Get ready...
    glBegin(GL_LINES);
@@ -157,37 +155,36 @@ void ogstream :: drawLine(const Position & begin, const Position & end,
 }
 
 /************************************************************************
-* DRAW RECTRANGLE
-* Draw a rectangle on the screen from the beginning to the end.
-*   INPUT  begin     The position of the beginning of the line
-*          end       The position of the end of the line
-*          r/g/b     The color of the line to be drawn
-*************************************************************************/
-void ogstream :: drawRectangle(const Position & begin, const Position & end,
-              double red, double green, double blue)
+ * DRAW RECTRANGLE
+ * Draw a rectangle on the screen from the beginning to the end.
+ *   INPUT  begin     The position of the beginning of the line
+ *          end       The position of the end of the line
+ *          r/g/b     The color of the line to be drawn
+ *************************************************************************/
+void ogstream ::drawRectangle(const Position &begin, const Position &end,
+                              double red, double green, double blue)
 {
    // Get ready...
    glBegin(GL_QUADS);
    glColor3f((GLfloat)red, (GLfloat)green, (GLfloat)blue);
-   
+
    // Draw the actual line
    glVertex2f((GLfloat)begin.getPixelsX(), (GLfloat)begin.getPixelsY());
    glVertex2f((GLfloat)begin.getPixelsX(), (GLfloat)end.getPixelsY());
-   glVertex2f((GLfloat)end.getPixelsX(),   (GLfloat)end.getPixelsY());
-   glVertex2f((GLfloat)end.getPixelsX(),   (GLfloat)begin.getPixelsY());
-   
+   glVertex2f((GLfloat)end.getPixelsX(), (GLfloat)end.getPixelsY());
+   glVertex2f((GLfloat)end.getPixelsX(), (GLfloat)begin.getPixelsY());
+
    // Complete drawing
    glResetColor();
    glEnd();
 }
-
 
 /***********************************************************************
  * DRAW Target
  * Draw a target on the screen at a given point
  *    point    The position of the target on the screen
  ***********************************************************************/
-void ogstream :: drawTarget(const Position& pos)
+void ogstream ::drawTarget(const Position &pos)
 {
    double size = 10.0;
 
@@ -196,10 +193,10 @@ void ogstream :: drawTarget(const Position& pos)
    glColor3f((GLfloat)0.2 /* red % */, (GLfloat)0.75 /* green % */, (GLfloat)0.2 /* blue % */);
 
    // specify the corners
-   glVertex2f((GLfloat)(pos.getPixelsX() - size/2.0), (GLfloat)(pos.getPixelsY() - size/2.0));
-   glVertex2f((GLfloat)(pos.getPixelsX() - size/2.0), (GLfloat)(pos.getPixelsY() + size/2.0));
-   glVertex2f((GLfloat)(pos.getPixelsX() + size/2.0), (GLfloat)(pos.getPixelsY() + size/2.0));
-   glVertex2f((GLfloat)(pos.getPixelsX() + size/2.0), (GLfloat)(pos.getPixelsY() - size/2.0));
+   glVertex2f((GLfloat)(pos.getPixelsX() - size / 2.0), (GLfloat)(pos.getPixelsY() - size / 2.0));
+   glVertex2f((GLfloat)(pos.getPixelsX() - size / 2.0), (GLfloat)(pos.getPixelsY() + size / 2.0));
+   glVertex2f((GLfloat)(pos.getPixelsX() + size / 2.0), (GLfloat)(pos.getPixelsY() + size / 2.0));
+   glVertex2f((GLfloat)(pos.getPixelsX() + size / 2.0), (GLfloat)(pos.getPixelsY() - size / 2.0));
 
    // done
    glResetColor();
@@ -213,34 +210,45 @@ void ogstream :: drawTarget(const Position& pos)
  *    angle    The angle of the barrel where 0 is straight up
  *    age      Seconds since the howitzer was fired
  ***********************************************************************/
-void ogstream :: drawHowitzer(const Position & pos, double angle, double age)
+void ogstream ::drawHowitzer(const Position &pos, double angle, double age)
 {
    // outline for the Barrel, the Base, and the muzzle flash
-   PT pointsBarrel[] = 
-   {
-      {0, 0},  {-1, 18}, {1, 18}, {0, 0},  // barrell
-      {-2, 2}, {-2, 10}, {2, 10}, {2, 2}, {0, 0}  // recoil
-   };
+   PT pointsBarrel[] =
+       {
+           {0, 0}, {-1, 18}, {1, 18}, {0, 0}, // barrell
+           {-2, 2},
+           {-2, 10},
+           {2, 10},
+           {2, 2},
+           {0, 0} // recoil
+       };
    PT pointsBase[] =
-   {
-      {-3, 1}, {-4, 0}, {-6, 0}, {-7, 1}, {-7, 3}, {-6, 4}, {-4, 4},  // left wheel
-      {-3, 3}, {0, 5}, {3, 3},  // middle part
-      {4, 4}, {6, 4},{7, 3},{7, 1},{6, 0},{4, 0},{3, 1},  // right wheel
-      {-3, 1}
-   };
+       {
+           {-3, 1}, {-4, 0}, {-6, 0}, {-7, 1}, {-7, 3}, {-6, 4}, {-4, 4}, // left wheel
+           {-3, 3},
+           {0, 5},
+           {3, 3}, // middle part
+           {4, 4},
+           {6, 4},
+           {7, 3},
+           {7, 1},
+           {6, 0},
+           {4, 0},
+           {3, 1}, // right wheel
+           {-3, 1}};
    PT pointsMuzzleFlash[10][2] =
-   {
-      { {-11,21}, {11,21} },      // least intense
-      { {-11,19}, {11,19} },     
-      { {-15,20}, {15,20} },
-      { { -7,21}, { 7,21} },
-      { { -7,19}, { 7,19} },     
-      { {-10,20}, {10,20} },     
-      { { -2,21}, { 2,21} },     
-      { { -2,19}, { 2,19} },
-      { { -5,20}, { 5,20} },
-      { { -2,20}, { 2,20} }      // most intense
-   };
+       {
+           {{-11, 21}, {11, 21}}, // least intense
+           {{-11, 19}, {11, 19}},
+           {{-15, 20}, {15, 20}},
+           {{-7, 21}, {7, 21}},
+           {{-7, 19}, {7, 19}},
+           {{-10, 20}, {10, 20}},
+           {{-2, 21}, {2, 21}},
+           {{-2, 19}, {2, 19}},
+           {{-5, 20}, {5, 20}},
+           {{-2, 20}, {2, 20}} // most intense
+       };
 
    // begin drawing
    glBegin(GL_LINE_STRIP);
@@ -261,7 +269,7 @@ void ogstream :: drawHowitzer(const Position & pos, double angle, double age)
 
    // Now for the muzzle flash
    if (age >= 0.0 && age < 2.0) // flash duration in seconds
-   { 
+   {
       // draw the muzzle flash
       glBegin(GL_LINES);
 
@@ -270,9 +278,9 @@ void ogstream :: drawHowitzer(const Position & pos, double angle, double age)
          GLfloat color = (GLfloat)((10.0 - (double)i) / 10.0);
          glColor3f(1.0 /* red % */, (GLfloat)color /* green % */, (GLfloat)color /* blue % */);
          glVertexPoint(rotate(posRotate, pointsMuzzleFlash[i][0].x,
-                                        pointsMuzzleFlash[i][0].y, angle));
+                              pointsMuzzleFlash[i][0].y, angle));
          glVertexPoint(rotate(posRotate, pointsMuzzleFlash[i][1].x,
-                                        pointsMuzzleFlash[i][1].y, angle));
+                              pointsMuzzleFlash[i][1].y, angle));
       }
 
       // complete drawing of the muzzle flash
@@ -290,7 +298,7 @@ void ogstream :: drawHowitzer(const Position & pos, double angle, double age)
  *           rotation Rotation in degrees
  *    OUTPUT point    The new position
  *************************************************************************/
-Position ogstream :: rotate(const Position& origin, double x, double y, double rotation)
+Position ogstream ::rotate(const Position &origin, double x, double y, double rotation)
 {
    // because sine and cosine are expensive, we want to call them only once
    double cosA = cos(rotation);
@@ -298,7 +306,7 @@ Position ogstream :: rotate(const Position& origin, double x, double y, double r
 
    // start with our original point
    Position posReturn(origin);
-   
+
    // find the new values
    posReturn.addPixelsX(x * cosA + y * sinA);
    posReturn.addPixelsY(y * cosA - x * sinA);
@@ -308,7 +316,7 @@ Position ogstream :: rotate(const Position& origin, double x, double y, double r
 
 /******************************************************************
  * RANDOM
- * This function generates a random number.  
+ * This function generates a random number.
  *
  *    INPUT:   min, max : The number of values (min <= num <= max)
  *    OUTPUT   <return> : Return the integer
@@ -324,7 +332,7 @@ int random(int min, int max)
 
 /******************************************************************
  * RANDOM
- * This function generates a random number.  
+ * This function generates a random number.
  *
  *    INPUT:   min, max : The number of values (min <= num <= max)
  *    OUTPUT   <return> : Return the double
@@ -333,13 +341,8 @@ double random(double min, double max)
 {
    assert(min <= max);
    double num = min + ((double)rand() / (double)RAND_MAX * (max - min));
-   
+
    assert(min <= num && num <= max);
 
    return num;
 }
-
-
-
-
-

@@ -9,31 +9,31 @@
 
 #pragma once
 
-#include "position.h"   // for Point
+#include "position.h" // for Point
 #include "uiDraw.h"
 
 // forward declaration for the Ground unit tests
 class TestGround;
 
- /***********************************************************
-  * GROUND
-  * The ground class
-  ***********************************************************/
+/***********************************************************
+ * GROUND
+ * The ground class
+ ***********************************************************/
 class Ground
 {
-public:  
+public:
    // the constructor generates the ground
    Ground(const Position &posUpperRight);
    Ground() : ground(nullptr), iHowitzer(0), iTarget(0) {}
-   
+
    // reset the ground and set the vertical position of the howitzer
-   void reset(Position & posHowitzer);
+   void reset(Position &posHowitzer);
 
    // draw the ground on the screen
-   void draw(ogstream & gout) const;
+   void draw(ogstream &gout) const;
 
    // determine how high the Position is off the ground
-   double getElevationMeters(const Position & pos) const;
+   double getElevationMeters(const Position &pos) const;
 
    // where the the target located?
    Position getTarget() const;
@@ -42,8 +42,8 @@ public:
    friend TestGround;
 
 private:
-   double * ground;               // elevation of the ground, in pixels 
-   int iTarget;                   // the location of the target, in pixels
-   int iHowitzer;                 // the location of the howitzer, in pixels
-   Position posUpperRight;        // size of the screen
+   double *ground;         // elevation of the ground, in pixels
+   int iHowitzer;          // the location of the howitzer, in pixels
+   int iTarget;            // the location of the target, in pixels
+   Position posUpperRight; // size of the screen
 };

@@ -15,8 +15,8 @@
 #include "uiInteract.h" // for INTERFACE
 #include "uiDraw.h"     // for RANDOM and DRAW*
 
-#include "ground.h"     // for GROUND
-#include "position.h"   // for POSITION
+#include "ground.h"   // for GROUND
+#include "position.h" // for POSITION
 #include <cmath>
 #include "physics.h"
 
@@ -32,11 +32,10 @@ using namespace std;
 class Demo
 {
 public:
-   Demo(Position ptUpperRight) :
-      ptUpperRight(ptUpperRight),
-      ground(ptUpperRight),
-      time(0.0),
-      angle(0.0)
+   Demo(Position ptUpperRight) : ptUpperRight(ptUpperRight),
+                                 ground(ptUpperRight),
+                                 time(0.0),
+                                 angle(0.0)
    {
       // Set the horizontal position of the howitzer. This should be random.
       ptHowitzer.setPixelsX(Position(ptUpperRight).getPixelsX() / 2.0);
@@ -54,12 +53,12 @@ public:
       }
    }
 
-   Ground ground;                 // the ground
-   Position  projectilePath[20];  // path of the projectile
-   Position  ptHowitzer;          // location of the howitzer
-   Position  ptUpperRight;        // size of the screen
-   double angle;                  // angle of the howitzer
-   double time;                   // amount of time since the last firing
+   Ground ground;               // the ground
+   Position projectilePath[20]; // path of the projectile
+   Position ptHowitzer;         // location of the howitzer
+   Position ptUpperRight;       // size of the screen
+   double angle;                // angle of the howitzer
+   double time;                 // amount of time since the last firing
 };
 
 /*************************************
@@ -69,11 +68,11 @@ public:
  * engine will wait until the proper amount of
  * time has passed and put the drawing on the screen.
  **************************************/
-void callBack(const Interface* pUI, void* p)
+void callBack(const Interface *pUI, void *p)
 {
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL.
-   Demo* pDemo = (Demo*)p;
+   Demo *pDemo = (Demo *)p;
 
    //
    // accept input
@@ -138,11 +137,12 @@ void callBack(const Interface* pUI, void* p)
 
 double Position::metersFromPixels = 40.0;
 
-double prompt(string message) {
-    double response;
-    cout << message;
-    cin >> response;
-    return response;
+double prompt(string message)
+{
+   double response;
+   cout << message;
+   cin >> response;
+   return response;
 }
 
 /*********************************
@@ -151,14 +151,15 @@ double prompt(string message) {
 #ifdef _WIN32_X
 #include <windows.h>
 int WINAPI wWinMain(
-   _In_ HINSTANCE hInstance,
-   _In_opt_ HINSTANCE hPrevInstance,
-   _In_ PWSTR pCmdLine,
-   _In_ int nCmdShow)
-#else // !_WIN32
-int main(int argc, char** argv)
+    _In_ HINSTANCE hInstance,
+    _In_opt_ HINSTANCE hPrevInstance,
+    _In_ PWSTR pCmdLine,
+    _In_ int nCmdShow)
+#else  // !_WIN32
+int main(int argc, char **argv)
 #endif // !_WIN32
 {
+<<<<<<< HEAD
     
     TestPhysics tP;
     tP.test_runner();

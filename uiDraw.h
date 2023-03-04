@@ -16,15 +16,14 @@
 #include <cmath>      // for M_PI, sin() and cos()
 #include <algorithm>  // used for min() and max()
 #include "position.h" // Where things are drawn
-using std::string;
-using std::min;
 using std::max;
+using std::min;
+using std::string;
 
 /*************************************************************************
  * DRAW TEXT
  * Draw text using a simple bitmap font
  ************************************************************************/
-
 
 #include <sstream>
 
@@ -35,43 +34,46 @@ using std::max;
 class ogstream : public std::ostringstream
 {
 public:
-   ogstream()                    : pos()    {          }
-   ogstream(const Position& pos) : pos(pos) {          }
-   ~ogstream()                              { flush(); }
-   
+   ogstream() : pos() {}
+   ogstream(const Position &pos) : pos(pos) {}
+   ~ogstream() { flush(); }
+
    // Methods specific to drawing text on the screen
    virtual void flush();
-   void setPosition(const Position& pos) { flush(); this->pos = pos; }
-   ogstream& operator = (const Position& pos)
+   void setPosition(const Position &pos)
+   {
+      flush();
+      this->pos = pos;
+   }
+   ogstream &operator=(const Position &pos)
    {
       setPosition(pos);
       return *this;
    }
-   
+
    // Specific methods for the game
-   virtual void drawLine(const Position & begin, const Position & end,
-                 double red = 0.0, double green = 0.0, double blue = 0.0);
-   virtual void drawRectangle(const Position & begin, const Position & end,
-                      double red = 0.0, double green = 0.0, double blue = 0.0);
-   virtual void drawProjectile(const Position& pos, double age = 0.0);
-   virtual void drawHowitzer(const Position & pos, double angle, double age);
-   virtual void drawTarget(const Position& pos);
-   virtual void drawText(const Position & topLeft, const char * text);
+   virtual void drawLine(const Position &begin, const Position &end,
+                         double red = 0.0, double green = 0.0, double blue = 0.0);
+   virtual void drawRectangle(const Position &begin, const Position &end,
+                              double red = 0.0, double green = 0.0, double blue = 0.0);
+   virtual void drawProjectile(const Position &pos, double age = 0.0);
+   virtual void drawHowitzer(const Position &pos, double angle, double age);
+   virtual void drawTarget(const Position &pos);
+   virtual void drawText(const Position &topLeft, const char *text);
+
 private:
-   
-   Position rotate(const Position& origin, double x, double y, double rotation);
+   Position rotate(const Position &origin, double x, double y, double rotation);
    Position pos;
 };
-
 
 /******************************************************************
  * RANDOM
  * This function generates a random number.  The user specifies
- * The parameters 
+ * The parameters
  *    INPUT:   min, max : The number of values (min <= num <= max)
  *    OUTPUT   <return> : Return the integer/double
  ****************************************************************/
-int    random(int    min, int    max);
+int random(int min, int max);
 double random(double min, double max);
 
 #include <cassert>
@@ -83,15 +85,15 @@ double random(double min, double max);
 class ogstreamDummy : public ogstream
 {
 public:
-   ogstreamDummy()  {          }
+   ogstreamDummy() {}
    ~ogstreamDummy() { str(""); }
-   void flush()                                                              { assert(false); }
-   void drawLine(const Position& begin, const Position& end,
-      double red = 0.0, double green = 0.0, double blue = 0.0)               { assert(false); }
-   void drawRectangle(const Position& begin, const Position& end,
-      double red = 0.0, double green = 0.0, double blue = 0.0)               { assert(false); }
-   void drawProjectile(const Position& pos, double age = 0.0)                { assert(false); }
-   void drawHowitzer(const Position& pos, double angle, double age)          { assert(false); }
-   void drawTarget(const Position& pos)                                      { assert(false); }
-   void drawText(const Position& topLeft, const char* text)                  { assert(false); }
+   void flush() { assert(false); }
+   void drawLine(const Position &begin, const Position &end,
+                 double red = 0.0, double green = 0.0, double blue = 0.0) { assert(false); }
+   void drawRectangle(const Position &begin, const Position &end,
+                      double red = 0.0, double green = 0.0, double blue = 0.0) { assert(false); }
+   void drawProjectile(const Position &pos, double age = 0.0) { assert(false); }
+   void drawHowitzer(const Position &pos, double angle, double age) { assert(false); }
+   void drawTarget(const Position &pos) { assert(false); }
+   void drawText(const Position &topLeft, const char *text) { assert(false); }
 };
