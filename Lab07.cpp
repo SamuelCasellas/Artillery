@@ -15,8 +15,8 @@
 #include "uiInteract.h" // for INTERFACE
 #include "uiDraw.h"     // for RANDOM and DRAW*
 
-#include "ground.h"     // for GROUND
-#include "position.h"   // for POSITION
+#include "ground.h"   // for GROUND
+#include "position.h" // for POSITION
 #include <cmath>
 #include "physics.h"
 
@@ -32,11 +32,10 @@ using namespace std;
 class Demo
 {
 public:
-   Demo(Position ptUpperRight) :
-      ptUpperRight(ptUpperRight),
-      ground(ptUpperRight),
-      time(0.0),
-      angle(0.0)
+   Demo(Position ptUpperRight) : ptUpperRight(ptUpperRight),
+                                 ground(ptUpperRight),
+                                 time(0.0),
+                                 angle(0.0)
    {
       // Set the horizontal position of the howitzer. This should be random.
       ptHowitzer.setPixelsX(Position(ptUpperRight).getPixelsX() / 2.0);
@@ -54,12 +53,12 @@ public:
       }
    }
 
-   Ground ground;                 // the ground
-   Position  projectilePath[20];  // path of the projectile
-   Position  ptHowitzer;          // location of the howitzer
-   Position  ptUpperRight;        // size of the screen
-   double angle;                  // angle of the howitzer
-   double time;                   // amount of time since the last firing
+   Ground ground;               // the ground
+   Position projectilePath[20]; // path of the projectile
+   Position ptHowitzer;         // location of the howitzer
+   Position ptUpperRight;       // size of the screen
+   double angle;                // angle of the howitzer
+   double time;                 // amount of time since the last firing
 };
 
 /*************************************
@@ -69,11 +68,11 @@ public:
  * engine will wait until the proper amount of
  * time has passed and put the drawing on the screen.
  **************************************/
-void callBack(const Interface* pUI, void* p)
+void callBack(const Interface *pUI, void *p)
 {
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL.
-   Demo* pDemo = (Demo*)p;
+   Demo *pDemo = (Demo *)p;
 
    //
    // accept input
@@ -138,11 +137,12 @@ void callBack(const Interface* pUI, void* p)
 
 double Position::metersFromPixels = 40.0;
 
-double prompt(string message) {
-    double response;
-    cout << message;
-    cin >> response;
-    return response;
+double prompt(string message)
+{
+   double response;
+   cout << message;
+   cin >> response;
+   return response;
 }
 
 /*********************************
@@ -151,129 +151,128 @@ double prompt(string message) {
 #ifdef _WIN32_X
 #include <windows.h>
 int WINAPI wWinMain(
-   _In_ HINSTANCE hInstance,
-   _In_opt_ HINSTANCE hPrevInstance,
-   _In_ PWSTR pCmdLine,
-   _In_ int nCmdShow)
-#else // !_WIN32
-int main(int argc, char** argv)
+    _In_ HINSTANCE hInstance,
+    _In_opt_ HINSTANCE hPrevInstance,
+    _In_ PWSTR pCmdLine,
+    _In_ int nCmdShow)
+#else  // !_WIN32
+int main(int argc, char **argv)
 #endif // !_WIN32
 {
-    
-    TestPhysics tP;
-        tP.test_runner();
-    
-    
-        std::cout << "All tests passed" << std::endl;
-        return 0;
-//
-//    // create an instance of the physics class
-//    physics p(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/);
-//
-//    double t = 1;
-//
-//    // 1. The initial speed at which the bullet leaves the howitzer
-//    p.velocity = 827.0;
-//
-//    double userAngle = prompt("What is the angle of the howitzer where 0 is up? ");
-//
-//    cout << endl;
-//
-//    p.aRadians = p.degreesToRadians(userAngle);
-//
-//
-//    // initial force
-//    p.projectileForce = p.calculateForce(p.mass, p.velocity); // The velocity is the acceleration at the first frame
-//
-//    double finalDistanceFromOrigin = 0.0;
-//    double hangTime = 0.0;
-//
-//    while (p.getAltitude() >= 0) {
-//        // Collect all data from tables
-//        // 2. Update to mach required for drag coefficient
-//        p.mach = p.calculateMach(p.velocity, p.speedOfSound);
-//        p.interpolateDragCoefficient();
-//        p.interpolateEnviornmentalFunctions();
-//
-//        // 3. Apply necessary data to drag coefficient equation
-//        // TOTAL ACCELERATION
-//        p.dragForce = p.applyDragForce(p.dragCoefficient, p.density, p.velocity, p.surfaceArea);
-//
-//        // 4. Compute new angle (optional)
-//
-//        p.acceleration = p.calculateAcceleration(p.dragForce, p.mass);
-//
-//        // Velocity horizontal and vertical components
-//        // double revAngle = p.reverseRadianAngle(p.aRadians);
-//        double dx0 = p.calculateHorizontalComponent(p.aRadians, p.velocity);
-//        double dy0 = p.calculateVerticalComponent(p.aRadians, p.velocity);
-//
-//        // Acceleration horizontal and vertical components
-//        p.ddx = -p.calculateHorizontalComponent(p.aRadians, p.acceleration);
-//        p.ddy = -p.gravity - p.calculateVerticalComponent(p.aRadians, p.acceleration);
-//
-//        // New position
-//
-//        double oldX = p.x;
-//        double oldY = p.y;
-//
-//        p.x = p.calculateDistance(p.x, dx0, p.ddx, t);
-//        p.y = p.calculateDistance(p.y, dy0, p.ddy, t);
-//
-//        if (p.getAltitude() < 0) {
-//            finalDistanceFromOrigin = p.linearInterpolation(oldX, p.x, oldY, p.y, 0);
-//            hangTime = p.linearInterpolation(t, t+1, oldY, p.y, 0);
-//        }
-//
-//        // New horizontal and vertical components
-//        p.dx = p.kinematicsEquation(dx0, p.ddx, t);
-//        p.dy = p.kinematicsEquation(dy0, p.ddy, t);
-//
-//        // Compute new angle (Wasn't in vid)
-//        p.aRadians = p.angleFromComponents(p.dx, p.dy);
-//
-//        // New velocity
-//
-//        p.velocity = p.calculateTotalVelocity(p.dx, p.dy); // don't use initial?
-//
-//        // Include this??? (Wasn't in vid)
-//        p.projectileForce = p.calculateForce(p.mass, p.acceleration);
-//        // cout << projectileForce << ' ' << dForce << '\n';
-//
-//        // s = s1 + (a * t) // where s is speed, s1 is initial speed, a is acceleration and t is time.
-//        // Compute the new velocity
-////        dx = p.pythagorean(dx, ddx); // This is the wrong equation
-////        dy = p.pythagorean(dy, ddy);
-////
-//        // cout << position.getMetersY() << endl;
-//
-//
-//    }
-//
-//
-//    cout << "Distance:\t"
-//         << finalDistanceFromOrigin
-//         << "\n"
-//         << "Hang Time:\t"
-//         << hangTime;
-//
-//
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////   // Initialize OpenGL
-////   Position ptUpperRight;
-////   ptUpperRight.setPixelsX(700.0);
-////   ptUpperRight.setPixelsY(500.0);
-////   Position().setZoom(40.0 /* 42 meters equals 1 pixel */);
-////   Interface ui(0, NULL,
-////      "Demo",   /* name on the window */
-////      ptUpperRight);
-////
-////   // Initialize the demo
-////   Demo demo(ptUpperRight);
-////
-////   // set everything into action
-////   ui.run(callBack, &demo);
-//
-//
-//   return 0;
+
+   TestPhysics tP;
+   tP.test_runner();
+
+   std::cout << "All tests passed" << std::endl;
+   return 0;
+   //
+   //    // create an instance of the physics class
+   //    physics p(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/);
+   //
+   //    double t = 1;
+   //
+   //    // 1. The initial speed at which the bullet leaves the howitzer
+   //    p.velocity = 827.0;
+   //
+   //    double userAngle = prompt("What is the angle of the howitzer where 0 is up? ");
+   //
+   //    cout << endl;
+   //
+   //    p.aRadians = p.degreesToRadians(userAngle);
+   //
+   //
+   //    // initial force
+   //    p.projectileForce = p.calculateForce(p.mass, p.velocity); // The velocity is the acceleration at the first frame
+   //
+   //    double finalDistanceFromOrigin = 0.0;
+   //    double hangTime = 0.0;
+   //
+   //    while (p.getAltitude() >= 0) {
+   //        // Collect all data from tables
+   //        // 2. Update to mach required for drag coefficient
+   //        p.mach = p.calculateMach(p.velocity, p.speedOfSound);
+   //        p.interpolateDragCoefficient();
+   //        p.interpolateEnviornmentalFunctions();
+   //
+   //        // 3. Apply necessary data to drag coefficient equation
+   //        // TOTAL ACCELERATION
+   //        p.dragForce = p.applyDragForce(p.dragCoefficient, p.density, p.velocity, p.surfaceArea);
+   //
+   //        // 4. Compute new angle (optional)
+   //
+   //        p.acceleration = p.calculateAcceleration(p.dragForce, p.mass);
+   //
+   //        // Velocity horizontal and vertical components
+   //        // double revAngle = p.reverseRadianAngle(p.aRadians);
+   //        double dx0 = p.calculateHorizontalComponent(p.aRadians, p.velocity);
+   //        double dy0 = p.calculateVerticalComponent(p.aRadians, p.velocity);
+   //
+   //        // Acceleration horizontal and vertical components
+   //        p.ddx = -p.calculateHorizontalComponent(p.aRadians, p.acceleration);
+   //        p.ddy = -p.gravity - p.calculateVerticalComponent(p.aRadians, p.acceleration);
+   //
+   //        // New position
+   //
+   //        double oldX = p.x;
+   //        double oldY = p.y;
+   //
+   //        p.x = p.calculateDistance(p.x, dx0, p.ddx, t);
+   //        p.y = p.calculateDistance(p.y, dy0, p.ddy, t);
+   //
+   //        if (p.getAltitude() < 0) {
+   //            finalDistanceFromOrigin = p.linearInterpolation(oldX, p.x, oldY, p.y, 0);
+   //            hangTime = p.linearInterpolation(t, t+1, oldY, p.y, 0);
+   //        }
+   //
+   //        // New horizontal and vertical components
+   //        p.dx = p.kinematicsEquation(dx0, p.ddx, t);
+   //        p.dy = p.kinematicsEquation(dy0, p.ddy, t);
+   //
+   //        // Compute new angle (Wasn't in vid)
+   //        p.aRadians = p.angleFromComponents(p.dx, p.dy);
+   //
+   //        // New velocity
+   //
+   //        p.velocity = p.calculateTotalVelocity(p.dx, p.dy); // don't use initial?
+   //
+   //        // Include this??? (Wasn't in vid)
+   //        p.projectileForce = p.calculateForce(p.mass, p.acceleration);
+   //        // cout << projectileForce << ' ' << dForce << '\n';
+   //
+   //        // s = s1 + (a * t) // where s is speed, s1 is initial speed, a is acceleration and t is time.
+   //        // Compute the new velocity
+   ////        dx = p.pythagorean(dx, ddx); // This is the wrong equation
+   ////        dy = p.pythagorean(dy, ddy);
+   ////
+   //        // cout << position.getMetersY() << endl;
+   //
+   //
+   //    }
+   //
+   //
+   //    cout << "Distance:\t"
+   //         << finalDistanceFromOrigin
+   //         << "\n"
+   //         << "Hang Time:\t"
+   //         << hangTime;
+   //
+   //
+   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ////   // Initialize OpenGL
+   ////   Position ptUpperRight;
+   ////   ptUpperRight.setPixelsX(700.0);
+   ////   ptUpperRight.setPixelsY(500.0);
+   ////   Position().setZoom(40.0 /* 42 meters equals 1 pixel */);
+   ////   Interface ui(0, NULL,
+   ////      "Demo",   /* name on the window */
+   ////      ptUpperRight);
+   ////
+   ////   // Initialize the demo
+   ////   Demo demo(ptUpperRight);
+   ////
+   ////   // set everything into action
+   ////   ui.run(callBack, &demo);
+   //
+   //
+   //   return 0;
 }

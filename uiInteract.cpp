@@ -10,29 +10,28 @@
  *     pointer towards the bottom of the file.
  ************************************************************************/
 
-#include <string>     // need you ask?
-#include <sstream>    // convert an integer into text
-#include <cassert>    // I feel the need... the need for asserts
-#include <time.h>     // for clock
-#include <cstdlib>    // for rand()
-
+#include <string>  // need you ask?
+#include <sstream> // convert an integer into text
+#include <cassert> // I feel the need... the need for asserts
+#include <time.h>  // for clock
+#include <cstdlib> // for rand()
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
-#include <openGL/gl.h>    // Main OpenGL library
-#include <GLUT/glut.h>    // Second OpenGL library
-#endif // __APPLE__
+#include <openGL/gl.h> // Main OpenGL library
+#include <GLUT/glut.h> // Second OpenGL library
+#endif                 // __APPLE__
 
 #ifdef __linux__
-#include <GL/gl.h>    // Main OpenGL library
-#include <GL/glut.h>  // Second OpenGL library
-#endif // __linux__
+#include <GL/gl.h>   // Main OpenGL library
+#include <GL/glut.h> // Second OpenGL library
+#endif               // __linux__
 
 #ifdef _WIN32
 #include <stdio.h>
 #include <stdlib.h>
-#include <Gl/glut.h>           // OpenGL library we copied
-#include <ctime>            // for ::Sleep();
+#include <Gl/glut.h> // OpenGL library we copied
+#include <ctime>     // for ::Sleep();
 #include <Windows.h>
 
 #define _USE_MATH_DEFINES
@@ -43,7 +42,6 @@
 #include "position.h"
 
 using namespace std;
-
 
 /*********************************************************************
  * SLEEP
@@ -59,7 +57,7 @@ void sleep(unsigned long msSleep)
    ::Sleep(msSleep + 35);
 
    // Unix-based operating systems (OS-X, Linux) do it another
-#else // LINUX, XCODE
+#else  // LINUX, XCODE
    timespec req = {};
    time_t sec = (int)(msSleep / 1000);
    msSleep -= (sec * 1000);
@@ -88,14 +86,14 @@ void drawCallback()
    // even though this is a local variable, all the members are static
    Interface ui;
    // Prepare the background buffer for drawing
-   glClear(GL_COLOR_BUFFER_BIT); //clear the screen
+   glClear(GL_COLOR_BUFFER_BIT); // clear the screen
    glColor3f((GLfloat)0.0 /* red % */, (GLfloat)0.0 /* green % */, (GLfloat)0.0 /* blue % */);
-   
-   //calls the client's display function
+
+   // calls the client's display function
    assert(ui.callBack != NULL);
    ui.callBack(&ui, ui.p);
-   
-   //loop until the timer runs out
+
+   // loop until the timer runs out
    if (!ui.isTimeToDraw())
       sleep((unsigned long)((ui.getNextTick() - clock()) / 1000));
 
@@ -168,24 +166,24 @@ void closeCallback()
  ****************************************************************/
 void Interface::keyEvent(int key, bool fDown)
 {
-   switch(key)
+   switch (key)
    {
-      case GLUT_KEY_DOWN:
-         isDownPress = fDown;
-         break;
-      case GLUT_KEY_UP:
-         isUpPress = fDown;
-         break;
-      case GLUT_KEY_RIGHT:
-         isRightPress = fDown;
-         break;
-      case GLUT_KEY_LEFT:
-         isLeftPress = fDown;
-         break;
-      case GLUT_KEY_HOME:
-      case ' ':
-         isSpacePress = fDown;
-         break;
+   case GLUT_KEY_DOWN:
+      isDownPress = fDown;
+      break;
+   case GLUT_KEY_UP:
+      isUpPress = fDown;
+      break;
+   case GLUT_KEY_RIGHT:
+      isRightPress = fDown;
+      break;
+   case GLUT_KEY_LEFT:
+      isLeftPress = fDown;
+      break;
+   case GLUT_KEY_HOME:
+   case ' ':
+      isSpacePress = fDown;
+      break;
    }
 }
 
@@ -225,7 +223,7 @@ bool Interface::isTimeToDraw()
  *************************************************************************/
 void Interface::setNextDrawTime()
 {
-   nextTick = (unsigned int)clock() + static_cast<unsigned int> (timePeriod * CLOCKS_PER_SEC);
+   nextTick = (unsigned int)clock() + static_cast<unsigned int>(timePeriod * CLOCKS_PER_SEC);
 }
 
 /************************************************************************
@@ -237,7 +235,7 @@ void Interface::setNextDrawTime()
  *************************************************************************/
 void Interface::setFramesPerSecond(double value)
 {
-    timePeriod = (1 / value);
+   timePeriod = (1 / value);
 }
 
 /***************************************************
@@ -245,15 +243,15 @@ void Interface::setFramesPerSecond(double value)
  * All the static member variables need to be initialized
  * Somewhere globally.  This is a good spot
  **************************************************/
-int          Interface::isDownPress  = 0;
-int          Interface::isUpPress    = 0;
-int          Interface::isLeftPress  = 0;
-int          Interface::isRightPress = 0;
-bool         Interface::isSpacePress = false;
-bool         Interface::initialized  = false;
-double       Interface::timePeriod   = 1.0 / 30; // default to 30 frames/second
-unsigned int Interface::nextTick     = 0;        // redraw now please
-void *       Interface::p            = NULL;
+int Interface::isDownPress = 0;
+int Interface::isUpPress = 0;
+int Interface::isLeftPress = 0;
+int Interface::isRightPress = 0;
+bool Interface::isSpacePress = false;
+bool Interface::initialized = false;
+double Interface::timePeriod = 1.0 / 30; // default to 30 frames/second
+unsigned int Interface::nextTick = 0;    // redraw now please
+void *Interface::p = NULL;
 void (*Interface::callBack)(const Interface *, void *) = NULL;
 
 /************************************************************************
@@ -265,42 +263,42 @@ void (*Interface::callBack)(const Interface *, void *) = NULL;
  *           argv:       The actual command-line parameters
  *           title:      The text for the titlebar of the window
  *************************************************************************/
-void Interface::initialize(int argc, char ** argv, const char * title, 
-                           const Position & posUpperRight)
+void Interface::initialize(int argc, char **argv, const char *title,
+                           const Position &posUpperRight)
 {
    if (initialized)
       return;
-   
+
    // set up the random number generator
    srand((unsigned int)time(NULL));
 
    // create the window
    glutInit(&argc, argv);
-   glutInitWindowSize((int)posUpperRight.getPixelsX()-1,
-                      (int)posUpperRight.getPixelsY()-1);   // size of the window
-            
-   glutInitWindowPosition( 10, 10);                // initial position 
-   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);    // double buffering
-   glutCreateWindow(title);                        // text on titlebar
+   glutInitWindowSize((int)posUpperRight.getPixelsX() - 1,
+                      (int)posUpperRight.getPixelsY() - 1); // size of the window
+
+   glutInitWindowPosition(10, 10);              // initial position
+   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); // double buffering
+   glutCreateWindow(title);                     // text on titlebar
    glutIgnoreKeyRepeat(true);
-   
+
    // set up the drawing style: B/W and 2D
-   glClearColor(1.0, 1.0, 1.0, 0);            // White is the background color
-   gluOrtho2D(0, (int)posUpperRight.getPixelsX(),    // range of x values: (0, width)
-              0, (int)posUpperRight.getPixelsY());   // range of y values: (0, height)
+   glClearColor(1.0, 1.0, 1.0, 0);                 // White is the background color
+   gluOrtho2D(0, (int)posUpperRight.getPixelsX(),  // range of x values: (0, width)
+              0, (int)posUpperRight.getPixelsY()); // range of y values: (0, height)
    glutReshapeWindow((int)posUpperRight.getPixelsX(), (int)posUpperRight.getPixelsY());
 
    // register the callbacks so OpenGL knows how to call us
-   glutDisplayFunc(   drawCallback    );
-   glutIdleFunc(      drawCallback    );
-   glutKeyboardFunc(  keyboardCallback);
-   glutSpecialFunc(   keyDownCallback );
-   glutSpecialUpFunc( keyUpCallback   );
+   glutDisplayFunc(drawCallback);
+   glutIdleFunc(drawCallback);
+   glutKeyboardFunc(keyboardCallback);
+   glutSpecialFunc(keyDownCallback);
+   glutSpecialUpFunc(keyUpCallback);
 #ifdef __APPLE__
-   glutWMCloseFunc(   closeCallback   );
-#endif 
+   glutWMCloseFunc(closeCallback);
+#endif
    initialized = true;
-   
+
    // done
    return;
 }
@@ -326,4 +324,3 @@ void Interface::run(void (*callBack)(const Interface *, void *), void *p)
 
    return;
 }
-

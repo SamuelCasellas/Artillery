@@ -7,13 +7,11 @@
  *    All the unit tests for the Ground class
  ************************************************************************/
 
-
 #pragma once
 
 #include "ground.h"
 #include <cassert>
 #include <vector>
-
 
 using namespace std;
 
@@ -40,10 +38,9 @@ public:
    }
 
 private:
-
    // Test the default constructor
    void constructor()
-   {  // setup
+   { // setup
       Position posUpperRight;
       posUpperRight.setPixelsX(4);
       posUpperRight.setPixelsY(5);
@@ -56,11 +53,11 @@ private:
       assert(g.posUpperRight.getPixelsY() == 5);
       assert(posUpperRight.getPixelsX() == 4);
       assert(posUpperRight.getPixelsY() == 5);
-   }  // teardown
+   } // teardown
 
    // when the shell is out of range
    void getElevationMeters_out()
-   {  // setup
+   { // setup
       Position pos;
       double zoom = pos.getZoom();
       pos.setZoom(1100.0);
@@ -75,11 +72,11 @@ private:
       verifyStandardFixture(g);
       // teardown
       pos.setZoom(zoom);
-   }  // teardown
+   } // teardown
 
    // The shell is 2 pixels above the ground
    void getElevationMeters_two()
-   {  // setup
+   { // setup
       Position pos;
       double zoom = pos.getZoom();
       pos.setZoom(1100.0);
@@ -90,15 +87,15 @@ private:
       // exercise
       double elevation = g.getElevationMeters(pos);
       // verify
-      assert(elevation == 7700.0);  // 7 pixels high or 7700m
+      assert(elevation == 7700.0); // 7 pixels high or 7700m
       verifyStandardFixture(g);
       // teardown
       pos.setZoom(zoom);
-   }  
+   }
 
    // The shell is 2 pixels above the ground
    void reset_two()
-   {  // setup
+   { // setup
       Position posHowitzer;
       Ground g;
       setupStandardFixture(g);
@@ -125,12 +122,11 @@ private:
          assert(g.ground[8] >= 0.0 && g.ground[8] < 10.0);
          assert(g.ground[9] >= 0.0 && g.ground[9] < 10.0);
       }
-   }  // teardown
-
+   } // teardown
 
    // The shell is 2 pixels above the ground
    void getTarget_two()
-   {  // setup
+   { // setup
       Position pos;
       Ground g;
       setupStandardFixture(g);
@@ -143,11 +139,11 @@ private:
       assert(posTarget.getPixelsY() == 7.0);
       g.iTarget = iTargetSave;
       verifyStandardFixture(g);
-   }  // teardown
+   } // teardown
 
    // The shell is 7 pixels above the ground
    void getTarget_seven()
-   {  // setup
+   { // setup
       Position pos;
       Ground g;
       setupStandardFixture(g);
@@ -160,39 +156,39 @@ private:
       assert(posTarget.getPixelsY() == 2.0);
       g.iTarget = iTargetSave;
       verifyStandardFixture(g);
-   }  // teardown
+   } // teardown
 
    // Spy to see exactly what ogstream::draw*() methods are called... and how.
    class ogstreamSpy : public ogstreamDummy
    {
    public:
       // ignore lines
-      void drawLine(const Position& begin, const Position& end,
-         double red, double green, double blue) { }
+      void drawLine(const Position &begin, const Position &end,
+                    double red, double green, double blue) {}
       // ignore text
-      void drawText(const Position& topLeft, const char* text) { }
+      void drawText(const Position &topLeft, const char *text) {}
       // flush is a no-op
-      void flush() { }
+      void flush() {}
       // remember target
-      void drawTarget(const Position& pos)
+      void drawTarget(const Position &pos)
       {
          targets.push_back(pos);
       }
       // remember rectangles
-      void drawRectangle(const Position& begin, const Position& end,
-         double red, double green, double blue)
+      void drawRectangle(const Position &begin, const Position &end,
+                         double red, double green, double blue)
       {
          rectanglesBegin.push_back(begin);
          rectanglesEnd.push_back(end);
       }
-      vector <Position>  targets;
-      vector <Position>  rectanglesBegin;
-      vector <Position>  rectanglesEnd;
+      vector<Position> targets;
+      vector<Position> rectanglesBegin;
+      vector<Position> rectanglesEnd;
    };
 
    // draw
    void draw()
-   {  // setup
+   { // setup
       Position pos;
       Ground g;
       setupStandardFixture(g);
@@ -246,20 +242,18 @@ private:
       assert(goutSpy.rectanglesEnd[8].getPixelsY() == 1);
       assert(goutSpy.rectanglesEnd[9].getPixelsY() == 0);
       verifyStandardFixture(g);
-   }  // teardown
-
+   } // teardown
 
    //
    // STANDARD FIXTURE
    //
 
-
    // standard fixture: 10 x 10 with howitzer at 5 and target at 7
-   void setupStandardFixture(Ground& g)
+   void setupStandardFixture(Ground &g)
    {
       // delete the old
       if (g.ground != nullptr)
-         delete [] g.ground;
+         delete[] g.ground;
       g.ground = new double[10];
 
       for (int i = 0; i < 10; i++)
@@ -272,7 +266,7 @@ private:
    }
 
    // verify the standard fixture: 10 x 10 with howitzer at 5 and target at 7
-   void verifyStandardFixture(Ground& g)
+   void verifyStandardFixture(Ground &g)
    {
       assert(g.iHowitzer == 5);
       assert(g.iTarget == 7);
