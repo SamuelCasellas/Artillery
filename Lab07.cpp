@@ -161,11 +161,11 @@ int main(int argc, char** argv)
 {
     
     TestPhysics tP;
-        tP.test_runner();
+    tP.test_runner();
     
     
-        std::cout << "All tests passed" << std::endl;
-        return 0;
+    std::cout << "All tests passed" << std::endl;
+    return 0;
 //
 //    // create an instance of the physics class
 //    physics p(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/);

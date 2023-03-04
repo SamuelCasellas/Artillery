@@ -15,6 +15,8 @@ physics::physics(double mass, double radius): mass(mass), surfaceArea(this->area
     this->gravity = 9.807;
 }
 
+physics::physics(): mass(0.0), surfaceArea(0.0) {}
+
 double physics::getAltitude() const { return this->y; }
 
 std::map<double, double> physics::createDragMap() {

@@ -47,6 +47,7 @@ public:
     //
     // constructor
     physics(double mass, double radius);
+    physics();
     
 //    // getters
     double getAltitude()const;
@@ -72,8 +73,6 @@ public:
 //    void setV(double vel);
 //    void setDegrees(double d);
 //
-
-    void calculateNewPosition();
 
 // private:
     double radiansToDegrees(double radians);
