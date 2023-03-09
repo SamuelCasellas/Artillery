@@ -12,16 +12,19 @@
  *****************************************************************/
 
 #include <cassert>      // for ASSERT
+
 #include "uiInteract.h" // for INTERFACE
 #include "uiDraw.h"     // for RANDOM and DRAW*
 
 #include "ground.h"   // for GROUND
+#include "bullet.h"
+#include "howitzer.h"
 #include "position.h" // for POSITION
 #include <cmath>
 #include "physics.h"
 
 // For testing
-#include "TestPhysics.cpp"
+#include "test.h"
 
 using namespace std;
 
@@ -35,27 +38,31 @@ public:
    Demo(Position ptUpperRight) : ptUpperRight(ptUpperRight),
                                  ground(ptUpperRight),
                                  time(0.0),
-                                 angle(0.0)
+                                 angle(0.0),
+                                 bullet(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/, 827.0 /* initial velocity */)
    {
       // Set the horizontal position of the howitzer. This should be random.
-      ptHowitzer.setPixelsX(Position(ptUpperRight).getPixelsX() / 2.0);
+      howitzer.getPt().setPixelsX(Position(ptUpperRight).getPixelsX() / 2.0);
 
       // Generate the ground and set the vertical position of the howitzer.
-      ground.reset(ptHowitzer);
+      ground.reset(howitzer.ptHowitzer);
 
       // This is to make the bullet travel across the screen. Notice how there are
       // 20 pixels, each with a different age. This gives the appearance
       // of a trail that fades off in the distance.
       for (int i = 0; i < 20; i++)
       {
-         projectilePath[i].setPixelsX((double)i * 2.0);
-         projectilePath[i].setPixelsY(ptUpperRight.getPixelsY() / 1.5);
+         bullet.projectilePath[i].setPixelsX((double)i * 2.0);
+         bullet.projectilePath[i].setPixelsY(ptUpperRight.getPixelsY() / 1.5);
       }
    }
 
-   Ground ground;               // the ground
-   Position projectilePath[20]; // path of the projectile
-   Position ptHowitzer;         // location of the howitzer
+   Ground ground;
+   Howitzer howitzer;
+   Bullet bullet;
+    
+   // Position projectilePath[20]; // path of the projectile
+
    Position ptUpperRight;       // size of the screen
    double angle;                // angle of the howitzer
    double time;                 // amount of time since the last firing
@@ -78,18 +85,8 @@ void callBack(const Interface *pUI, void *p)
    // accept input
    //
 
-   // move a large amount
-   if (pUI->isRight())
-      pDemo->angle += 0.05;
-   if (pUI->isLeft())
-      pDemo->angle -= 0.05;
-
-   // move by a little
-   if (pUI->isUp())
-      pDemo->angle += (pDemo->angle >= 0 ? -0.003 : 0.003);
-   if (pUI->isDown())
-      pDemo->angle += (pDemo->angle >= 0 ? 0.003 : -0.003);
-
+   pDemo->howitzer.userInput(pUI);
+    
    // fire that gun
    if (pUI->isSpace())
       pDemo->time = 0.0;
@@ -105,11 +102,11 @@ void callBack(const Interface *pUI, void *p)
    for (int i = 0; i < 20; i++)
    {
       // this bullet is moving left at 1 pixel per frame
-      double x = pDemo->projectilePath[i].getPixelsX();
+      double x = pDemo->bullet.projectilePath[i].getPixelsX();
       x -= 1.0;
       if (x < 0)
          x = pDemo->ptUpperRight.getPixelsX();
-      pDemo->projectilePath[i].setPixelsX(x);
+      pDemo->bullet.projectilePath[i].setPixelsX(x);
    }
 
    //
@@ -122,11 +119,11 @@ void callBack(const Interface *pUI, void *p)
    pDemo->ground.draw(gout);
 
    // draw the howitzer
-   gout.drawHowitzer(pDemo->ptHowitzer, pDemo->angle, pDemo->time);
+   gout.drawHowitzer(pDemo->howitzer.getPt(), pDemo->angle, pDemo->time);
 
    // draw the projectile
    for (int i = 0; i < 20; i++)
-      gout.drawProjectile(pDemo->projectilePath[i], 0.5 * (double)i);
+      gout.drawProjectile(pDemo->bullet.projectilePath[i], 0.5 * (double)i);
 
    // draw some text on the screen
    gout.setf(ios::fixed | ios::showpoint);
@@ -159,97 +156,12 @@ int WINAPI wWinMain(
 int main(int argc, char **argv)
 #endif // !_WIN32
 {
-<<<<<<< HEAD
-    
-    TestPhysics tP;
-    tP.test_runner();
-    
+
+    testRunner();
     
     std::cout << "All tests passed" << std::endl;
     return 0;
-//
-//    // create an instance of the physics class
-//    physics p(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/);
-//
-//    double t = 1;
-//
-//    // 1. The initial speed at which the bullet leaves the howitzer
-//    p.velocity = 827.0;
-//
-//    double userAngle = prompt("What is the angle of the howitzer where 0 is up? ");
-//
-//    cout << endl;
-//
-//    p.aRadians = p.degreesToRadians(userAngle);
-//
-//
-//    // initial force
-//    p.projectileForce = p.calculateForce(p.mass, p.velocity); // The velocity is the acceleration at the first frame
-//
-//    double finalDistanceFromOrigin = 0.0;
-//    double hangTime = 0.0;
-//
-//    while (p.getAltitude() >= 0) {
-//        // Collect all data from tables
-//        // 2. Update to mach required for drag coefficient
-//        p.mach = p.calculateMach(p.velocity, p.speedOfSound);
-//        p.interpolateDragCoefficient();
-//        p.interpolateEnviornmentalFunctions();
-//
-//        // 3. Apply necessary data to drag coefficient equation
-//        // TOTAL ACCELERATION
-//        p.dragForce = p.applyDragForce(p.dragCoefficient, p.density, p.velocity, p.surfaceArea);
-//
-//        // 4. Compute new angle (optional)
-//
-//        p.acceleration = p.calculateAcceleration(p.dragForce, p.mass);
-//
-//        // Velocity horizontal and vertical components
-//        // double revAngle = p.reverseRadianAngle(p.aRadians);
-//        double dx0 = p.calculateHorizontalComponent(p.aRadians, p.velocity);
-//        double dy0 = p.calculateVerticalComponent(p.aRadians, p.velocity);
-//
-//        // Acceleration horizontal and vertical components
-//        p.ddx = -p.calculateHorizontalComponent(p.aRadians, p.acceleration);
-//        p.ddy = -p.gravity - p.calculateVerticalComponent(p.aRadians, p.acceleration);
-//
-//        // New position
-//
-//        double oldX = p.x;
-//        double oldY = p.y;
-//
-//        p.x = p.calculateDistance(p.x, dx0, p.ddx, t);
-//        p.y = p.calculateDistance(p.y, dy0, p.ddy, t);
-//
-//        if (p.getAltitude() < 0) {
-//            finalDistanceFromOrigin = p.linearInterpolation(oldX, p.x, oldY, p.y, 0);
-//            hangTime = p.linearInterpolation(t, t+1, oldY, p.y, 0);
-//        }
-//
-//        // New horizontal and vertical components
-//        p.dx = p.kinematicsEquation(dx0, p.ddx, t);
-//        p.dy = p.kinematicsEquation(dy0, p.ddy, t);
-//
-//        // Compute new angle (Wasn't in vid)
-//        p.aRadians = p.angleFromComponents(p.dx, p.dy);
-//
-//        // New velocity
-//
-//        p.velocity = p.calculateTotalVelocity(p.dx, p.dy); // don't use initial?
-//
-//        // Include this??? (Wasn't in vid)
-//        p.projectileForce = p.calculateForce(p.mass, p.acceleration);
-//        // cout << projectileForce << ' ' << dForce << '\n';
-//
-//        // s = s1 + (a * t) // where s is speed, s1 is initial speed, a is acceleration and t is time.
-//        // Compute the new velocity
-////        dx = p.pythagorean(dx, ddx); // This is the wrong equation
-////        dy = p.pythagorean(dy, ddy);
-////
-//        // cout << position.getMetersY() << endl;
-//
-//
-//    }
+    
 //
 //
 //    cout << "Distance:\t"

@@ -1,128 +1,57 @@
 //
-//  physics.hpp
+//  Physics.h
 //  Lab07
 //
 //  Created by Samuel on 2/16/23.
 //
 
-#ifndef physics_hpp
-#define physics_hpp
+#ifndef Physics_h
+#define Physics_h
 
-#include <stdio.h>
 #include "position.h"
 #include <map>
 #include <tuple>
-
-class physics
+#include "TestPhysics.h"
+/**************************************************
+ *
+ *                 PHYSICS CLASS
+ *
+ * All functions are static since there are no member variables.
+ *********************************************************************************/
+class Physics
 {
+    friend TestPhysics;
 public:
-    const double surfaceArea;
-    const double mass;
+    static double calculateMach(double speed, double speedOfSound);
 
-    //    double timer;
-    //    double accelerationThrust;  // Acceleration due to thrust
-    //    double ddx;                 // Total horizontal acceleration
-    //    double ddy;                 // Total vertical acceleration
-    double dragCoefficient;
-    double density;
-    double speedOfSound;
-    double gravity;
+    static double interpolateDragCoefficient(double mach);
+    static double interpolateDensity(double y);
+    static double interpolateSpeedOfSound(double y);
+    static double interpolateGravity(double y);
 
-    double velocity;
-    double acceleration;
-    double aRadians;
-    double aDegrees; // User input on the angle
-    double mach;
-    double dragForce;
-    double projectileForce;
-    double dx;
-    double dy;
-    double ddx;
-    double ddy;
+    static double calculateDragForce(double coefficient, double p, double v, double a);
+    static double calculateAcceleration(double f, double m);
+    static double calculateForce(double m, double a);
+    static double calculateHorizontalComponent(double a, double s);
+    static double calculateVerticalComponent(double a, double s);
+    static double calculateAngleFromComponents(double dx, double dy);
+    static double calculateTotalVelocity(double dx, double dy);
+    static double calculateDistance(double s, double v, double a, double t);
 
-    double x;
-    double y; // altitude
-    // Position pos;
-    //    double v;                   // Total velocity
-    //
-    // constructor
-    physics(double mass, double radius);
-    physics();
+    static double kinematicsEquation(double s, double a, double t);
     
-//    // getters
-    double getAltitude()const;
-//    double getTimer();
-//    double getRadians();
-//    double getAccelerationThrust();
-//    double getDdxThrust();
-//
-//    double getDdyThrust();
-//    double getDdx();
-//    double getDdy();
-//    double getV();
-//    double getDegrees();
-//
-//    // setters
-//    void setTimer(double newTimer);
-//    void setRadians(double r);
-//    void setAccelerationThrust(double at);
-//    void setDdxThrust(double dt);
-//    void setDdyThrust(double dt);
-//    void setDdx(double d);
-//    void setDdy(double d);
-//    void setV(double vel);
-//    void setDegrees(double d);
-//
-
-// private:
-
-    double radiansToDegrees(double radians);
-    double degreesToRadians(double degrees);
-
-    void normalize();
-    double reverseRadianAngle(double a);
-    double calculateMach(double speed, double speedOfSound);
-    double areaOfCircle(double r);
-
-    // Drag coefficient
-    static std::map<double, double> createDragMap();
-
-    // Environmental table methods
-
-    static std::map<int, double> createGravityMap();
-    static std::map<int, double> createDensityMap();
-    static std::map<int, int> createSpeedOfSoundMap();
-
-    //    std::tuple<int, int, double, double> retrieveD01R01forDensity(double altitude);
-    //    std::tuple<int, int, double, double> retrieveD01R01ForGravity(double altitude);
-    //    std::tuple<int, int, int, int> retrieveD01R01ForSpeedOfSound(double altitude);
-
-    template <typename func_T, typename map_T, typename T1, typename T2>
-    std::tuple<T1, T1, T2, T2> retrieveD01R01(double altitude, func_T func);
-
-    // Including Mach
-    void interpolateEnviornmentalFunctions();
-    void interpolateDragCoefficient();
-
-    double caclulateDragCoefficient(double mach);
-    double linearInterpolation(double r0, double r1, double d0, double d1, double d);
-    double applyDragForce(double coefficient, double p, double v, double a);
-    double calculateAcceleration(double f, double m);
-    double calculateForce(double m, double a);
-    double calculateHorizontalComponent(double a, double s);
-    double calculateVerticalComponent(double a, double s);
-    double angleFromComponents(double dx, double dy);
-    double calculateTotalVelocity(double dx, double dy);
-    double calculateDistance(double s, double v, double a, double t);
-
-    //     double dxtnearinterpolationR(double r0, double r1, double d0, double d1, double d);
-
-    double kinematicsEquation(double s, double a, double t);
-
+    static double linearInterpolation(double r0, double r1, double d0, double d1, double d);
+    
 private:
-    void interpolateDensity();
-    void interpolateSpeedOfSound();
-    void interpolateGravity();
+    static const std::map<double, double> dragMap;
+    static const std::map<int, double> gravityMap;
+    static const std::map<int, double> densityMap;
+    static const std::map<int, int> speedOfSoundMap;
+    
+    template <typename map_T, typename T1, typename T2>
+    static std::tuple<T1, T1, T2, T2> retrieveD01R01(double d /* mach || altitude */, map_T & map);
+    
+    
 };
 
-#endif /* physics_hpp */
+#endif /* Physics_h */
