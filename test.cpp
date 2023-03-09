@@ -8,6 +8,7 @@
  ************************************************************************/
 
 #include "test.h"
+
 #include "testPosition.h"
 #include "testGround.h"
 
