@@ -18,3 +18,4 @@ bool TestAngle::determineIfApprox(double expected, double actual) {
     double high = expected + 0.0001;
     return (actual > low && actual < high);
 }
+

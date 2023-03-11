@@ -23,4 +23,6 @@ private:
     void testLinearInterpolation();
 };
 
+
+
 #endif /* TestAngle_h */
