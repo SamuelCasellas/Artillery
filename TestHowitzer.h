@@ -8,17 +8,19 @@
 #ifndef TestHowitzer_h
 #define TestHowitzer_h
 
-#include <stdio.h>
+#include "uiInteract.h"
+#include "Howitzer.h"
+#include "Angle.h"
 
-class TestHowitzer {
+class TestHowitzer
+{
 public:
     void run();
+    
 private:
     bool determineIfApprox(double expected, double actual);
-
-    void testMach();
-    void testRetrieveD01R01();
-    void testLinearInterpolation();
+    void testGetAngle();
+    void testUpdateAngle();
 };
 
 #endif /* TestHowitzer_h */

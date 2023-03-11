@@ -5,13 +5,16 @@
 //  Created by Samuel on 3/8/23.
 //
 
-#include "howitzer.h"
+#include <cassert>
+
+#include "TestHowitzer.h"
+#include "Howitzer.h"
+#include "Angle.h"
 
 
 void TestHowitzer::run() {
-//    this->testMach();
-//    this->testRetrieveD01R01();
-//    this->testLinearInterpolation();
+    testGetAngle();
+    testUpdateAngle();
 }
 
 bool TestHowitzer::determineIfApprox(double expected, double actual) {
@@ -19,3 +22,26 @@ bool TestHowitzer::determineIfApprox(double expected, double actual) {
     double high = expected + 0.0001;
     return (actual > low && actual < high);
 }
+
+void TestHowitzer::testGetAngle() {
+    Howitzer h;
+    Angle a;
+    a.setDegrees(45.0);
+    h.updateAngle(a);
+    assert(determineIfApprox(a.getDegrees(), h.getAngle().getDegrees()));
+}
+
+void TestHowitzer::testUpdateAngle() {
+    Howitzer h;
+    Angle a;
+    a.setDegrees(45.0);
+    h.updateAngle(a);
+    Angle newAngle;
+    newAngle.setDegrees(30.0);
+    h.updateAngle(newAngle);
+    assert(determineIfApprox(newAngle.getDegrees(), h.getAngle().getDegrees()));
+}
+
+
+
+
