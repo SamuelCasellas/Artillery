@@ -9,8 +9,8 @@
 #define TestHowitzer_h
 
 #include "uiInteract.h"
-#include "Howitzer.h"
-#include "Angle.h"
+#include "howitzer.h"
+#include "angle.h"
 
 class TestHowitzer
 {
