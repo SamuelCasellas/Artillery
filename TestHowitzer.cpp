@@ -8,8 +8,8 @@
 #include <cassert>
 
 #include "TestHowitzer.h"
-#include "Howitzer.h"
-#include "Angle.h"
+#include "howitzer.h"
+#include "angle.h"
 
 
 void TestHowitzer::run() {
