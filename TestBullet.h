@@ -16,6 +16,7 @@ public:
     void run();
 
 private:
+    void testConstructor();
     void testHasLanded();
     void testCalculateNewPosition();
     void testGetH();
@@ -23,4 +24,3 @@ private:
 };
 
 #endif /* TestPhysics_h */
-
