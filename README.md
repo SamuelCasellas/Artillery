@@ -1,37 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>M777 Howitzer Prototype Simulation</title>
-</head>
-<body>
+# M777 Howitzer Prototype Simulation
 
-	<h1>M777 Howitzer Prototype Simulation</h1>
+## Contributors
 
-	<h2>Contributors</h2>
+- **Samuel Casellas**
+- **Andrew Swayze**
+- **Isaac Radford**
 
-	<ul>
-		<li><strong>Samuel Casellas</strong></li>
-		<li><strong>Andrew Swayze</strong></li>
-		<li><strong>Isaac Radford</strong></li>
-	</ul>
+## Description
 
-	<h2>Description</h2>
+This program simulates firing the M777 howitzer 15mm artillery piece.
 
-	<p>This program simulates firing the M777 howitzer 15mm artillery piece.</p>
+## Usage
 
-	<h2>Usage</h2>
+To run the simulation, compile and run the program. Once running, the simulation can be interacted with using the following controls:
 
-	<p>To run the simulation, compile and run the program. Once running, the simulation can be interacted with using the following controls:</p>
+- **up arrow** and **down arrow** to adjust the angle of the howitzer.
+- **left arrow** and **right arrow** to adjust the power of the shot.
+- **space** to fire the howitzer.
 
-	<ul>
-		<li><strong>up arrow</strong> and <strong>down arrow</strong> to adjust the angle of the howitzer.</li>
-		<li><strong>left arrow</strong> and <strong>right arrow</strong> to adjust the power of the shot.</li>
-		<li><strong>space</strong> to fire the howitzer.</li>
-	</ul>
+## Implementation Details
 
-	<h2>Implementation Details</h2>
+The simulation is implemented using C++ and OpenGL. The `uiInteract` and `uiDraw` libraries are used for graphics rendering, and the `ground`, `bullet`, `howitzer`, `position`, and `physics` modules are used to simulate the movement of the howitzer, bullets, and ground. The simulation is organized into a `Demo` class, which contains all of the state and logic needed to simulate the firing of the howitzer. The `callBack` function is called repeatedly by the graphics engine to draw each frame of the simulation and update its state based on user input.
 
-	<p>The simulation is implemented using C++ and OpenGL. The <code>uiInteract</code> and <code>uiDraw</code> libraries are used for graphics rendering, and the <code>ground</code>, <code>bullet</code>, <code>howitzer</code>, <code>position</code>, and <code>physics</code> modules are used to simulate the movement of the howitzer, bullets, and ground. The simulation is organized into a <code>Demo</code> class, which contains all of the state and logic needed to simulate the firing of the howitzer. The <code>callBack</code> function is called repeatedly by the graphics engine to draw each frame of the simulation and update its state based on user input.</p>
+## Known Issues
 
-</body>
-</html>
+The program does not fully implement the assignment, as it has difficulty getting the bullet to hit the ground. This is a known issue that the developers were unable to resolve within the timeframe of the assignment.
