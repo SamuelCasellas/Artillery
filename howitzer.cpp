@@ -28,7 +28,11 @@ void Howitzer::updateAngle(Angle & a) {
     this->aHowitzer = a;
 }
 
-Position Howitzer::getPt()const
+Angle & Howitzer::getAngle() {
+    return this->aHowitzer;
+}
+
+Position & Howitzer::getPt()
 {
     return this->ptHowitzer;
 }

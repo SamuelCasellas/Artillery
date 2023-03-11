@@ -22,6 +22,7 @@
 #include "position.h" // for POSITION
 #include <cmath>
 #include "physics.h"
+#include <vector>
 
 // For testing
 #include "test.h"
@@ -37,35 +38,40 @@ class Demo
 public:
    Demo(Position ptUpperRight) : ptUpperRight(ptUpperRight),
                                  ground(ptUpperRight),
-                                 time(0.0),
-                                 angle(0.0),
-                                 bullet(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/, 827.0 /* initial velocity */)
+                                 time(0.0)
    {
       // Set the horizontal position of the howitzer. This should be random.
       howitzer.getPt().setPixelsX(Position(ptUpperRight).getPixelsX() / 2.0);
 
       // Generate the ground and set the vertical position of the howitzer.
       ground.reset(howitzer.ptHowitzer);
-
-      // This is to make the bullet travel across the screen. Notice how there are
-      // 20 pixels, each with a different age. This gives the appearance
-      // of a trail that fades off in the distance.
-      for (int i = 0; i < 20; i++)
-      {
-         bullet.projectilePath[i].setPixelsX((double)i * 2.0);
-         bullet.projectilePath[i].setPixelsY(ptUpperRight.getPixelsY() / 1.5);
-      }
    }
 
    Ground ground;
    Howitzer howitzer;
-   Bullet bullet;
+   // Queue for the bullets fired
+   std::vector<Bullet> bullets;
+   double time;        // amount of time since began simulation (or last firing)
     
    // Position projectilePath[20]; // path of the projectile
 
    Position ptUpperRight;       // size of the screen
-   double angle;                // angle of the howitzer
-   double time;                 // amount of time since the last firing
+    
+    void introduceBullet() {
+        Bullet b(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/, 827.0 /* initial velocity */, howitzer.getAngle());
+        
+        // This is to make the bullet travel across the screen. Notice how there are
+        // 20 pixels, each with a different age. This gives the appearance
+        // of a trail that fades off in the distance.
+        for (int i = 0; i < 20; i++)
+        {
+           b.projectilePath[i].setPixelsX((double)i * 2.0);
+           b.projectilePath[i].setPixelsY(ptUpperRight.getPixelsY() / 1.5);
+        }
+        
+        // Not working right now (move methods). Coming back later
+        // bullets.push_back(b);
+    }
 };
 
 /*************************************
@@ -88,27 +94,30 @@ void callBack(const Interface *pUI, void *p)
    pDemo->howitzer.userInput(pUI);
     
    // fire that gun
-   if (pUI->isSpace())
-      pDemo->time = 0.0;
+    if (pUI->isSpace()) {
+        pDemo->time = 0;
+        pDemo->introduceBullet();
+    }
 
    //
    // perform all the game logic
    //
 
    // advance time by half a second.
-   pDemo->time += 0.5;
+    pDemo->time += 0.5;
 
    // move the projectile across the screen
-   for (int i = 0; i < 20; i++)
-   {
-      // this bullet is moving left at 1 pixel per frame
-      double x = pDemo->bullet.projectilePath[i].getPixelsX();
-      x -= 1.0;
-      if (x < 0)
-         x = pDemo->ptUpperRight.getPixelsX();
-      pDemo->bullet.projectilePath[i].setPixelsX(x);
-   }
-
+    for (auto it = pDemo->bullets.begin(); it != pDemo->bullets.end(); ++it) {
+        for (int i = 0; i < 20; i++)
+        {
+           // this bullet is moving left at 1 pixel per frame
+           double x = it->projectilePath[i].getPixelsX();
+           x -= 1.0;
+           if (x < 0)
+              x = pDemo->ptUpperRight.getPixelsX();
+            it->projectilePath[i].setPixelsX(x);
+        }
+    }
    //
    // draw everything
    //
@@ -119,11 +128,22 @@ void callBack(const Interface *pUI, void *p)
    pDemo->ground.draw(gout);
 
    // draw the howitzer
-   gout.drawHowitzer(pDemo->howitzer.getPt(), pDemo->angle, pDemo->time);
+   gout.drawHowitzer(pDemo->howitzer.getPt(), pDemo->howitzer.getAngle().getRadians(), pDemo->time);
 
-   // draw the projectile
-   for (int i = 0; i < 20; i++)
-      gout.drawProjectile(pDemo->bullet.projectilePath[i], 0.5 * (double)i);
+   // draw the projectile(s)
+    auto it = pDemo->bullets.begin();
+    while (it != pDemo->bullets.end()) {
+        for (int i = it->framesSinceLanded; i < 20; i++) {
+            gout.drawProjectile(it->projectilePath[i], 0.5 * (double)i);
+        }
+        if (it->hasLanded())
+            it->framesSinceLanded++;
+        
+        // Remove bullet once there is nothing left to draw.
+        
+       // Not working right now (move methods). Coming back later
+       // (it->framesSinceLanded >= 20 ? it = pDemo->bullets.erase(it) : ++it);
+    }
 
    // draw some text on the screen
    gout.setf(ios::fixed | ios::showpoint);

@@ -7,20 +7,58 @@
 
 #include "bullet.h"
 #include "physics.h"
+#include "angle.h"
 
-Bullet::Bullet(double mass, double radius, double initVel) : mass(mass), surfaceArea(M_PI * radius * radius) {
+Bullet::Bullet() : surfaceArea(0.0), mass(0.0), age(0.0) {}
+
+Bullet::Bullet(double mass, double radius, double initVel, Angle a) : mass(mass), surfaceArea(M_PI * radius * radius) {
     
     this->age = 0.0;
     
     this->ptBullet.setMetersX(0.0);
     this->ptBullet.setMetersY(0.0);
     
-    this->totalVelocity = this->totalAcceleration = 0.0;
+    this->totalVelocity = this->totalAcceleration = initVel;
+    
+    this->aBullet = a;
     
     // Environmental factors at ground level.
     this->density = Physics::interpolateDensity(0.0); // 1.225 if y = 0
     this->speedOfSound = Physics::interpolateSpeedOfSound(0.0); // 340.0
     this->gravity = Physics::interpolateGravity(0.0); // 9.807 = 0
+}
+
+Bullet::Bullet(double mass, double radius, double initVel, Angle a, Position pos) : mass(mass), surfaceArea(M_PI * radius * radius) {
+    
+    this->age = 0.0;
+    
+    this->ptBullet = pos;
+    
+    this->totalVelocity = this->totalAcceleration = initVel;
+    
+    this->aBullet = a;
+    
+    // Environmental factors at ground level.
+    double y = pos.getMetersY();
+    this->density = Physics::interpolateDensity(y); // 1.225 if y = 0
+    this->speedOfSound = Physics::interpolateSpeedOfSound(y); // 340.0
+    this->gravity = Physics::interpolateGravity(y); // 9.807 = 0
+}
+
+Bullet::Bullet(Bullet&& other)
+    : surfaceArea(other.surfaceArea), mass(other.mass), ptBullet(std::move(other.ptBullet)),
+      aBullet(std::move(other.aBullet)), age(other.age), mach(other.mach),
+      dragCoefficient(other.dragCoefficient), density(other.density), speedOfSound(other.speedOfSound),
+      gravity(other.gravity), dragForce(other.dragForce), projectileForce(other.projectileForce),
+      dx(other.dx), dy(other.dy), ddx(other.ddx), ddy(other.ddy),
+      totalVelocity(other.totalVelocity), totalAcceleration(other.totalAcceleration)
+{
+    // Move the projectilePath array
+    for (int i = 0; i < 20; i++) {
+        projectilePath[i] = std::move(other.projectilePath[i]);
+    }
+    
+    // Destroy other object after move
 }
 
 
@@ -30,7 +68,8 @@ bool Bullet::hasLanded() {
 
 void Bullet::calculateNewPosition() {
     
-    double t = 1;
+    // t was half a second according to simulation
+    const double t = 0.5;
 
     // initial force
     this->projectileForce = Physics::calculateForce(this->mass, this->totalVelocity); // The velocity is the acceleration at the first frame
@@ -101,7 +140,11 @@ void Bullet::calculateNewPosition() {
 //
         // cout << position.getMetersY() << endl;
 
-
+        this->age += t;
    }
+}
+
+double Bullet::getAge()const{
+    return this->age;
 }
 

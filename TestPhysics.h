@@ -15,27 +15,36 @@ class TestPhysics {
 public:
     void run();
 private:
-    bool determineIfApprox(double expected, double actual);  
+    bool determineIfApprox(double expected, double actual, double error);
 
     void testMach();
-    void testInterpolateDragCoefficient();
-    void testInterpolateDensity();
-    void testInterpolateSpeedOfSound();
-    void testInterpolateGravity();
     
-    void testCalculateDragForce();
+    void testInterpolateDragCoefficient();
+    void testInterpolateDragCoefficient1();
+    void testInterpolateDensity();
+    void testInterpolateDensity1();
+    void testInterpolateSpeedOfSound();
+    void testInterpolateSpeedOfSound1();
+    void testInterpolateGravity();
+    void testInterpolateGravity1();
+    
+    void testCalculateDragForce(); 
     void testCalculateAcceleration();
     void testCalculateForce();
-    void testCalculateHorizontalComponent();
-    void testCalculateVerticalComponent();
+    void testCalculateHorizontalComponentVel();
+    void testCalculateHorizontalComponentAcc();
+    void testCalculateVerticalComponentVel();
+    void testCalculateVerticalComponentAcc();
+    
     void testCalculateAngleFromComponents();
     void testCalculateTotalVelocity();
-    void testCalculateDistance();
+    void testCalculateDistanceX();
+    void testCalculateDistanceY();
     
-    void testKinematicsEquation();
+    void testKinematicsEquationX();
+    void testKinematicsEquationY();
     
     void testLinearInterpolation();
-    
     void testRetrieveD01R01();
 };
 

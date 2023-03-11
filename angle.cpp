@@ -21,6 +21,8 @@ Angle::Angle(Angle & a):pi{2 * asin(1.0)}, fullRevolutionRad{2 * pi}, fullRevolu
     radians = a.radians;
     degrees = a.degrees;
 }
+
+Angle::Angle(Angle&& other) : pi(other.pi), fullRevolutionRad(other.fullRevolutionRad), fullRevolutionDeg(other.fullRevolutionDeg), radians(other.radians), degrees(other.degrees) {}
     
 double Angle::convertToDegrees(double r)
 {
@@ -41,6 +43,7 @@ void Angle::normalize()
     while (radians > fullRevolutionRad) {
         radians -= fullRevolutionRad;
     }
+    
     while (degrees < fullRevolutionDeg) {
         degrees += fullRevolutionDeg;
     }

@@ -27,6 +27,20 @@ Position &Position::operator=(const Position &pt)
    return *this;
 }
 
+void Position::move(double dxMeters, double dyMeters)
+{
+    x += dxMeters;
+    y += dyMeters;
+}
+
+/******************************************
+ * POINT : MOVE
+ * Move a point
+ *****************************************/
+Position::Position(Position&& other)
+    : x(std::exchange(other.x, 0.0)),
+      y(std::exchange(other.y, 0.0)) {}
+
 /******************************************
  * POSITION insertion
  *       Display coordinates on the screen

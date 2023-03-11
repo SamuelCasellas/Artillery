@@ -18,6 +18,8 @@ using namespace std;
 
 class Angle
 {
+    friend TestAngle;
+    
     const double pi;
     const double fullRevolutionRad;
     const double fullRevolutionDeg;
@@ -33,6 +35,8 @@ private:
 public:
     Angle();
     Angle(Angle & a);
+    
+    Angle(Angle&& other);
     
     double getDegrees()const;
     double getRadians()const;

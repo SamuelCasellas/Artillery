@@ -12,11 +12,22 @@
 #include "angle.h"
 
 #include "TestBullet.h"
+#include "TestPhysics.h"
 
 class Bullet
 {
+    friend TestPhysics;
+    friend TestBullet;
 public:
-    Bullet(double mass, double radius, double initVel);
+    int framesSinceLanded = 0;
+    // Constructor for move method
+    Bullet();
+    
+    Bullet(double mass, double radius, double initVel, Angle a);
+    Bullet(double mass, double radius, double initVel, Angle a, Position pos);
+    
+    // Move constructor (for push_back method in main)
+    Bullet(Bullet&& other);
     
     const double surfaceArea;
     const double mass;
@@ -26,6 +37,8 @@ public:
     // void draw();
     bool hasLanded();
     void calculateNewPosition();
+    
+    double getAge()const;
     
 private:
     Position ptBullet;

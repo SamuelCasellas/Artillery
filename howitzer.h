@@ -17,13 +17,15 @@
 
 class Howitzer
 {
+    friend TestHowitzer;
 public:
     Howitzer();
     void userInput(const Interface * pUI);
-    void draw();
     void updateAngle(Angle & a);
+
+    Angle & getAngle();
     
-    Position getPt()const;
+    Position & getPt();
 
     // Needs to be public to pass directly to reset method in ground
     Position ptHowitzer;
