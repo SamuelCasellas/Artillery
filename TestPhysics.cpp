@@ -7,6 +7,7 @@
 
 #include "physics.h"
 #include "bullet.h"
+#include <cassert>
 
 void TestPhysics::run() {
     this->testMach();
