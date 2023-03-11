@@ -17,7 +17,7 @@
 
 class Howitzer
 {
-    friend TestHowitzer;
+    friend class TestHowitzer;
 public:
     Howitzer();
     void userInput(const Interface * pUI);
