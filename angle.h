@@ -12,13 +12,10 @@
 #include <iostream>
 #include <cmath>
 
-#include "TestAngle.h"
-
 using namespace std;
 
 class Angle
 {
-    friend TestAngle;
     
     const double pi;
     const double fullRevolutionRad;

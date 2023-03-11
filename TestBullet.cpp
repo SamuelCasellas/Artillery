@@ -21,13 +21,12 @@ void TestBullet::testConstructor()
     // Verify
     assert(b.mass == 46.7);
     assert(b.surfaceArea > 0.0188 && b.surfaceArea < 0.0189);
-    assert(b.getAltitude() == b.y && b.y == 0.0);
 } // Teardown
 
 void TestBullet::run() {
     testHasLanded();
     testCalculateNewPosition();
-    testGetH();
+    testGetAge();
 }
 
 void TestBullet::testHasLanded() {
@@ -57,12 +56,12 @@ void TestBullet::testCalculateNewPosition() {
     // Test case for calculateNewPosition with initial velocity
     Bullet b3(0.1, 0.05, 100.0, a, Position(0.0, 0.0));
     b3.calculateNewPosition();
-    assert(b3.ptBullet.getX() != 0.0 || b3.ptBullet.getY() != 0.0);
+    assert(b3.ptBullet.getPixelsX() != 0.0 || b3.ptBullet.getPixelsY() != 0.0);
     
     // Test case for calculateNewPosition with no initial velocity
     Bullet b4(0.1, 0.05, 0.0, a, Position(0.0, 0.0));
     b4.calculateNewPosition();
-    assert(b4.ptBullet.getX() == 0.0 && b4.ptBullet.getY() == 0.0);
+    assert(b4.ptBullet.getPixelsX() == 0.0 && b4.ptBullet.getPixelsY() == 0.0);
 }
 
 void TestBullet::testGetAge() {

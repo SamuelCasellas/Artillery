@@ -19,7 +19,7 @@ private:
     void testConstructor();
     void testHasLanded();
     void testCalculateNewPosition();
-    void testGetH();
+    void testGetAge();
     
 };
 

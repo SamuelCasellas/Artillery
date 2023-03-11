@@ -54,14 +54,20 @@ private:
     double speedOfSound;
     double gravity;
     
+    // dragForce is the force of drag on the bullet
     double dragForce;
+    // projectileForce is the force of the bullet's projectile
     double projectileForce;
     
+    // dx and dy are the x and y components of the bullet's velocity
     double dx;
     double dy;
+    // ddx and ddy are the x and y components of the bullet's acceleration
     double ddx;
     double ddy;
+    // totalVelocity is the total velocity of the bullet
     double totalVelocity;
+    // totalAcceleration is the total acceleration of the bullet
     double totalAcceleration;
 };
 

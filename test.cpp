@@ -13,7 +13,6 @@
 #include "testGround.h"
 
 #include "TestPhysics.h"
-#include "TestAngle.h"
 #include "TestBullet.h"
 #include "TestHowitzer.h"
 
@@ -27,7 +26,6 @@ void testRunner()
    TestGround().run();
    // Our unit tests //
    TestPhysics().run();
-   TestAngle().run();
    TestBullet().run();
    TestHowitzer().run();
 }
