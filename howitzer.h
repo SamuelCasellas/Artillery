@@ -18,10 +18,9 @@
 class Howitzer
 {
     friend class TestHowitzer;
-<<<<<<< HEAD
+
     
-=======
->>>>>>> d27ccc044676fa1bac46901ad76b4194fc9435c1
+
 public:
     Howitzer();
     void userInput(const Interface * pUI);

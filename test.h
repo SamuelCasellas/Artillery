@@ -1,5 +1,5 @@
 /***********************************************************************
- * Heaader File:
+ * Header File:
  *    Test : Test runner
  * Author:
  *    Br. Helfrich
@@ -9,4 +9,9 @@
 
 #pragma once
 
-void testRunner();
+class Test
+{
+public:
+    void testRunner();
+};
+

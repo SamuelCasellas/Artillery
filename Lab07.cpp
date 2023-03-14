@@ -175,11 +175,13 @@ int WINAPI wWinMain(
 #else  // !_WIN32
 int main(int argc, char **argv)
 #endif // !_WIN32
-{
 
-    testRunner();
-    
+{
+    Test t;
+
+    t.testRunner();
     std::cout << "All tests passed" << std::endl;
+
     return 0;
     
 //
@@ -194,8 +196,8 @@ int main(int argc, char **argv)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     
-//
-////Initialize OpenGL
+
+//Initialize OpenGL
 //Position ptUpperRight;
 //ptUpperRight.setPixelsX(700.0);
 //ptUpperRight.setPixelsY(500.0);
@@ -209,9 +211,9 @@ int main(int argc, char **argv)
 //
 ////set everything into action
 //ui.run(callBack, &demo);
-//
-//
-//   return 0;
+
+
+   return 0;
 };
 
 
