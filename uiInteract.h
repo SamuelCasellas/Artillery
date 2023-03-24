@@ -100,7 +100,7 @@ void drawCallback();
 /************************************************************************
  * KEY DOWN CALLBACK
  * When a key on the keyboard has been pressed, we need to pass that
- * on to the client.  Currnetly, we are only registering the arrow keys
+ * on to the client.  Currently, we are only registering the arrow keys
  *************************************************************************/
 void keyDownCallback(int key, int x, int y);
 
