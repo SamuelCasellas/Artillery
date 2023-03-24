@@ -39,6 +39,7 @@ void TestBullet::testHasLanded() {
     for (int i = 0; i < 10; i++) {
         b1.calculateNewPosition();
     }
+    
     assert(b1.hasLanded() == false);
     // Test case for hasLanded when bullet has landed
     

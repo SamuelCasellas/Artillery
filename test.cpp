@@ -20,10 +20,11 @@
  * TEST RUNNER
  * Runs all the unit tests
  ****************************************************************/
-void testRunner()
+void Test::testRunner()
 {
    TestPosition().run();
    TestGround().run();
+    
    // Our unit tests //
    TestPhysics().run();
    TestBullet().run();
