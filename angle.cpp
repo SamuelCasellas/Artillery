@@ -74,9 +74,11 @@ void Angle::setRadians(double r)
     degrees = convertToDegrees(r);
 }
 
-double Angle::reverseRadianAngle(double aRadians)
+void Angle::reverseRadianAngle()
 {
-    return aRadians + M_PI;
+    this->radians = this->radians + M_PI;
+    this->degrees = this->degrees + 180.0;
+    this->normalize();
 }
 
 Angle &Angle::operator=(const Angle &a)

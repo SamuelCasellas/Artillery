@@ -41,7 +41,7 @@ public:
     void setRadians(double r);
     Angle &operator=(const Angle &a);
     
-static double reverseRadianAngle(double a);
+    void reverseRadianAngle();
 };
 
 #endif /* angle_h */

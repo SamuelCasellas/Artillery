@@ -70,7 +70,7 @@ double Physics::calculateVerticalComponent(double a, double s)
 
 double Physics::calculateAngleFromComponents(double dx, double dy)
 {
-    return atan(dx / dy);
+    return atan(dy / dx);
 }
 
 // pythagorean theorem
@@ -81,7 +81,7 @@ double Physics::calculateTotalVelocity(double dx, double dy)
     return sqrt((dx * dx) + (dy * dy));
 }
 
-double Physics::calculateDistance(double s, double v, double a, double t)
+double Physics::calculateDistance(double s /*x || y*/, double v/*  */, double a/*acceleration*/, double t/*time*/)
 {
     return s + v * t + 0.5 * a * t * t;
 }

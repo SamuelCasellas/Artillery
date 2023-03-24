@@ -44,6 +44,7 @@ private:
     Position ptBullet;
     
     Angle aBullet;
+    Angle aDrag;
     
     double age; // time since firing
     
