@@ -22,8 +22,6 @@ public:
     int framesSinceLanded = 0;
     // Constructor for move method
     Bullet();
-    
-    Bullet(double mass, double radius, double initVel, Angle a);
     Bullet(double mass, double radius, double initVel, Angle a, Position pos);
     
     // Move constructor (for push_back method in main)
@@ -36,7 +34,7 @@ public:
     
     // void draw();
     bool hasLanded();
-    void calculateNewPosition();
+    void calculateNextFramesPos();
     
     double getAge()const;
     
@@ -55,10 +53,7 @@ private:
     double speedOfSound;
     double gravity;
     
-    // dragForce is the force of drag on the bullet
-    double dragForce;
-    // projectileForce is the force of the bullet's projectile
-    double projectileForce;
+    double dragAcceleration;
     
     // dx and dy are the x and y components of the bullet's velocity
     double dx;
@@ -68,8 +63,9 @@ private:
     double ddy;
     // totalVelocity is the total velocity of the bullet
     double totalVelocity;
-    // totalAcceleration is the total acceleration of the bullet
-    double totalAcceleration;
+    
+// Time interval
+static inline const int t = 1;
 };
 
 

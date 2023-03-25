@@ -70,7 +70,7 @@ double Physics::calculateVerticalComponent(double a, double s)
 
 double Physics::calculateAngleFromComponents(double dx, double dy)
 {
-    return atan(dy / dx);
+    return atan(dx / dy);
 }
 
 // pythagorean theorem
@@ -177,6 +177,8 @@ std::tuple<T1, T1, T2, T2> Physics::retrieveD01R01(double d /* altitude || mach 
 {
     std::tuple<T1, T1, T2, T2> d01R01Tuple;
 
+    bool withinRange = false;
+    
     // Projectile hit the ground
     if (d < 0)
     {
@@ -206,8 +208,16 @@ std::tuple<T1, T1, T2, T2> Physics::retrieveD01R01(double d /* altitude || mach 
         // Lower bound (d0, r0)
         std::get<0>(d01R01Tuple) = it->first;
         std::get<2>(d01R01Tuple) = it->second;
-
+        
+        withinRange = true;
         break;
+    }
+    
+    if (!withinRange) {
+        auto it = map.end();
+        it--;
+        std::get<1>(d01R01Tuple) = std::get<0>(d01R01Tuple) = it->first;
+        std::get<3>(d01R01Tuple) = std::get<2>(d01R01Tuple) = it->second;
     }
 
     return d01R01Tuple;
@@ -216,6 +226,10 @@ std::tuple<T1, T1, T2, T2> Physics::retrieveD01R01(double d /* altitude || mach 
 // d == v ; r == c
 double Physics::linearInterpolation(double r0, double r1, double d0, double d1, double d)
 {
-    return (r0 + ((d - d0) * (r1 - r0) / (d1 - d0)));
-    // 0.2897 + (2.432 - 1.99) * (.2296 - .289) / (2.87 - 1.99)
+    if (d0 == d1) {
+        // Handle case where d0 and d1 are equal
+        return (r0 + r1) / 2.0;
+    } else {
+        return (r0 + ((d - d0) * (r1 - r0) / (d1 - d0)));
+    }
 }

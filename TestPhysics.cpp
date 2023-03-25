@@ -28,8 +28,7 @@ void TestPhysics::run() {
     this->testCalculateHorizontalComponentAcc();
     this->testCalculateVerticalComponentVel();
     this->testCalculateVerticalComponentAcc();
-    // TODO: Fix later
-    // this->testCalculateAngleFromComponents();
+    this->testCalculateAngleFromComponents();
     this->testCalculateTotalVelocity();
     this->testCalculateDistanceX();
     this->testCalculateDistanceY();
@@ -152,7 +151,7 @@ void TestPhysics::testCalculateDragForce() {
     // Setup
     Angle ang;
     ang.setDegrees(30);
-    Bullet b(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/, 827.0 /* initial velocity */, ang);
+    Bullet b(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/, 827.0 /* initial velocity */, ang, Position());
     double coefficient = 0.25953957219251339;
     double p = 1.225;
     double v = 827.0;
@@ -193,7 +192,7 @@ void TestPhysics::testCalculateHorizontalComponentVel() {
     // Setup
     Angle a;
     a.setDegrees(30);
-    Bullet b(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/, 827.0 /* initial velocity */, a);
+    Bullet b(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/, 827.0 /* initial velocity */, a, Position());
     
     // Exercise
     double dx = Physics::calculateHorizontalComponent(a.getRadians(), b.totalVelocity);
@@ -205,7 +204,7 @@ void TestPhysics::testCalculateVerticalComponentVel() {
     // Setup
     Angle a;
     a.setDegrees(30);
-    Bullet b(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/, 827.0 /* initial velocity */, a);
+    Bullet b(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/, 827.0 /* initial velocity */, a, Position());
     
     // Exercise
     double dy = Physics::calculateVerticalComponent(a.getRadians(), b.totalVelocity);
@@ -217,7 +216,7 @@ void TestPhysics::testCalculateHorizontalComponentAcc() {
     // Setup
     Angle a;
     a.setDegrees(30);
-    Bullet b(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/, 827.0 /* initial velocity */, a);
+    Bullet b(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/, 827.0 /* initial velocity */, a, Position());
     double acc = 43.867;
     // Exercise
     double ddx = -Physics::calculateHorizontalComponent(a.getRadians(), acc);
@@ -229,7 +228,7 @@ void TestPhysics::testCalculateVerticalComponentAcc() {
     // Setup
     Angle a;
     a.setDegrees(30);
-    Bullet b(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/, 827.0 /* initial velocity */, a);
+    Bullet b(46.7 /*mass of projectile*/, .15489 / 2.0 /*Radius for calculating surface area*/, 827.0 /* initial velocity */, a, Position());
     double acc = 43.867;
     // Exercise
     double ddy = -b.gravity-Physics::calculateVerticalComponent(a.getRadians(), acc);

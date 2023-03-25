@@ -18,7 +18,7 @@ public:
 private:
     void testConstructor();
     void testHasLanded();
-    void testCalculateNewPosition();
+    void testCalculateNextFramesPos();
     void testGetAge();
     
 };
