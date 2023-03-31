@@ -2,13 +2,13 @@
  * 1. Name:
  *      Samuel Casellas, Andrew Swayze, Isaac Radford
  * 2. Assignment Name:
- *      Lab 12: M777 Howitzer
+ *      Lab 12: Artillery Code Complete
  * 3. Assignment Description:
- *      Simulate firing the M777 howitzer 15mm artillery piece
+ *      Simulate firing the M777 howitzer 15mm artillery piece.
  * 4. What was the hardest part? Be as specific as possible.
- *           Trying to get the bullet to hit the ground. Didn't fully complete the assignment.
+ *      Trying to draw the bullet according to position. The physics is correct
  * 5. How long did it take for you to complete the assignment?
- *      4 hours and counting...
+ *      10+ hours
  *****************************************************************/
 
 #include <cassert>      // for ASSERT
@@ -65,6 +65,8 @@ public:
         // This is to make the bullet travel across the screen. Notice how there are
         // 20 pixels, each with a different age. This gives the appearance
         // of a trail that fades off in the distance.
+        
+        // PART 1/3
         for (int i = 0; i < 20; i++)
         {
            bullet->projectilePath[i].setPixelsX((double)i * 2.0);
@@ -115,11 +117,12 @@ void callBack(const Interface *pUI, void *p)
         for (int i = 0; i < 20; i++)
         {
            // this bullet is moving left at 1 pixel per frame
-           double x = pDemo->bullet->projectilePath[i].getPixelsX();
-           x -= 1.0;
-           if (x < 0)
-              x = pDemo->ptUpperRight.getPixelsX();
-            pDemo->bullet->projectilePath[i].setPixelsX(x);
+        // double x = 
+           double y = pDemo->bullet->projectilePath[i].getPixelsY();
+           y -= 1.0;
+           if (y < 0)
+              y = pDemo->ptUpperRight.getPixelsY();
+            pDemo->bullet->projectilePath[i].setPixelsY(y);
         }
     }
     
