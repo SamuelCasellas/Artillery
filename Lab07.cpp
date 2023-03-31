@@ -2,11 +2,13 @@
  * 1. Name:
  *      Samuel Casellas, Andrew Swayze, Isaac Radford
  * 2. Assignment Name:
- *      Lab 12: Artillery Code Complete
+ *      Lab 13: Artillery Final Submission
  * 3. Assignment Description:
  *      Simulate firing the M777 howitzer 15mm artillery piece.
  * 4. What was the hardest part? Be as specific as possible.
- *      Trying to draw the bullet according to position. The physics is correct
+ *      We ran into a lot of trouble with the projectilePath array. We had to
+ *     figure out how to make the array work and follow the path of
+ *    the projectile.
  * 5. How long did it take for you to complete the assignment?
  *      10+ hours
  *****************************************************************/
@@ -67,10 +69,6 @@ public:
             bullet->projectilePath[i].setPixelsX(howitzerX);
             bullet->projectilePath[i].setPixelsY(howitzerY);
         }
-
-        // OPTIONAL: Add functionality for second bullet firing
-        // Not working right now (move methods). Coming back later
-        // bullets.push_back(std::move(b));
     }
 };
 
@@ -112,8 +110,9 @@ void callBack(const Interface *pUI, void *p)
     {
         pDemo->bullet->calculateNextFramesPos();
         pDemo->bullet->projectilePath[0] = pDemo->bullet->getPtBullet();
-        
-        for (int i = 19; i > 0; i--) {
+
+        for (int i = 19; i > 0; i--)
+        {
             pDemo->bullet->projectilePath[i] = pDemo->bullet->projectilePath[i - 1];
         }
     }
@@ -147,21 +146,6 @@ void callBack(const Interface *pUI, void *p)
         }
     }
 
-    // OPTIONAL: Implement later for multiple bullets fired at once
-    //    auto it = pDemo->bullets.begin();
-    //    while (it != pDemo->bullets.end()) {
-    //        for (int i = it->framesSinceLanded; i < 20; i++) {
-    //            gout.drawProjectile(it->projectilePath[i], 0.5 * (double)i);
-    //        }
-    //        if (it->hasLanded())
-    //            it->framesSinceLanded++;
-    //
-    //        // Remove bullet once there is nothing left to draw.
-    //
-    //       // Not working right now (move methods). Coming back later
-    //        (it->framesSinceLanded >= 20 ? it = pDemo->bullets.erase(it) : ++it);
-    //    }
-
     // draw some text on the screen
     gout.setf(ios::fixed | ios::showpoint);
     gout.precision(1);
@@ -194,15 +178,6 @@ int main(int argc, char **argv)
 #endif // !_WIN32
 
 {
-    //    Test t;
-    //
-    //    t.testRunner();
-    //    std::cout << "All tests passed" << std::endl;
-    //
-    //    return 0;
-    //
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     // Initialize OpenGL
     Position ptUpperRight;
     ptUpperRight.setPixelsX(700.0);
