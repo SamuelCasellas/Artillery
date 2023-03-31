@@ -11,8 +11,6 @@
  *      10+ hours
  *****************************************************************/
 
-#include <cassert> // for ASSERT
-
 #include "uiInteract.h" // for INTERFACE
 #include "uiDraw.h"     // for RANDOM and DRAW*
 
@@ -22,7 +20,6 @@
 #include "position.h" // for POSITION
 #include <cmath>
 #include "physics.h"
-#include <vector>
 
 // For testing
 #include "test.h"
@@ -51,11 +48,7 @@ public:
     Howitzer howitzer;
     Bullet *bullet = nullptr;
 
-    // Collection of bullets fired
-    std::vector<Bullet> bullets;
     double time; // amount of time since began simulation (or last firing)
-
-    // Position projectilePath[20]; // path of the projectile
 
     Position ptUpperRight; // size of the screen
 
@@ -67,11 +60,12 @@ public:
         // 20 pixels, each with a different age. This gives the appearance
         // of a trail that fades off in the distance.
 
-        // PART 1/3
+        double howitzerX = this->howitzer.getPt().getPixelsX();
+        double howitzerY = this->howitzer.getPt().getPixelsY();
         for (int i = 0; i < 20; i++)
         {
-            bullet->projectilePath[i].setPixelsX((double)i * 2.0);
-            bullet->projectilePath[i].setPixelsY(ptUpperRight.getPixelsY() / 1.5);
+            bullet->projectilePath[i].setPixelsX(howitzerX);
+            bullet->projectilePath[i].setPixelsY(howitzerY);
         }
 
         // OPTIONAL: Add functionality for second bullet firing
@@ -117,31 +111,13 @@ void callBack(const Interface *pUI, void *p)
     if (pDemo->bullet != nullptr)
     {
         pDemo->bullet->calculateNextFramesPos();
-        for (int i = 0; i < 20; i++)
-        {
-            // this bullet is moving left at 1 pixel per frame
-            // double x =
-            double y = pDemo->bullet->projectilePath[i].getPixelsY();
-            y -= 1.0;
-            if (y < 0)
-                y = pDemo->ptUpperRight.getPixelsY();
-            pDemo->bullet->projectilePath[i].setPixelsY(y);
+        pDemo->bullet->projectilePath[0] = pDemo->bullet->getPtBullet();
+        
+        for (int i = 19; i > 0; i--) {
+            pDemo->bullet->projectilePath[i] = pDemo->bullet->projectilePath[i - 1];
         }
     }
 
-    // OPTIONAL: Implement later for multiple bullets fired at once
-    //    for (auto it = pDemo->bullets.begin(); it != pDemo->bullets.end(); ++it) {
-    //        it->calculateNextFramesPos();
-    //        for (int i = 0; i < 20; i++)
-    //        {
-    //           // this bullet is moving left at 1 pixel per frame
-    //           double x = it->projectilePath[i].getPixelsX();
-    //           x -= 1.0;
-    //           if (x < 0)
-    //              x = pDemo->ptUpperRight.getPixelsX();
-    //            it->projectilePath[i].setPixelsX(x);
-    //        }
-    //    }
     //
     // draw everything
     //

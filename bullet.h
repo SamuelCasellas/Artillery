@@ -38,6 +38,8 @@ public:
     void calculateNextFramesPos();
 
     double getAge() const;
+    
+    Position getPtBullet()const;
 
 private:
     Position ptBullet;

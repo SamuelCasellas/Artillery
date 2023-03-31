@@ -121,3 +121,8 @@ double Bullet::getAge() const
 {
     return this->age;
 }
+
+Position Bullet::getPtBullet() const
+{
+    return this->ptBullet;
+}
