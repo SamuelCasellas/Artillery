@@ -10,8 +10,9 @@
 
 #include <stdio.h>
 
-class TestBullet {
-    
+class TestBullet
+{
+
 public:
     void run();
 
@@ -20,7 +21,6 @@ private:
     void testHasLanded();
     void testCalculateNextFramesPos();
     void testGetAge();
-    
 };
 
 #endif /* TestPhysics_h */

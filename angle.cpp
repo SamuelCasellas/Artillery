@@ -12,18 +12,20 @@
 
 using namespace std;
 
-Angle::Angle():pi{2 * asin(1.0)}, fullRevolutionRad{2 * pi}, fullRevolutionDeg{360.0} {
+Angle::Angle() : pi{2 * asin(1.0)}, fullRevolutionRad{2 * pi}, fullRevolutionDeg{360.0}
+{
     radians = 0.0;
     degrees = 0.0;
 }
 
-Angle::Angle(Angle & a):pi{2 * asin(1.0)}, fullRevolutionRad{2 * pi}, fullRevolutionDeg{360.0} {
+Angle::Angle(Angle &a) : pi{2 * asin(1.0)}, fullRevolutionRad{2 * pi}, fullRevolutionDeg{360.0}
+{
     radians = a.radians;
     degrees = a.degrees;
 }
 
-Angle::Angle(Angle&& other) : pi(other.pi), fullRevolutionRad(other.fullRevolutionRad), fullRevolutionDeg(other.fullRevolutionDeg), radians(other.radians), degrees(other.degrees) {}
-    
+Angle::Angle(Angle &&other) : pi(other.pi), fullRevolutionRad(other.fullRevolutionRad), fullRevolutionDeg(other.fullRevolutionDeg), radians(other.radians), degrees(other.degrees) {}
+
 double Angle::convertToDegrees(double r)
 {
     return r * 180 / pi;
@@ -33,32 +35,36 @@ double Angle::convertToRadians(double d)
 {
     return d * pi / 180;
 }
-    
+
 void Angle::normalize()
 {
-    while (radians < fullRevolutionRad) {
+    while (radians < fullRevolutionRad)
+    {
         radians += fullRevolutionRad;
     }
-    
-    while (radians > fullRevolutionRad) {
+
+    while (radians > fullRevolutionRad)
+    {
         radians -= fullRevolutionRad;
     }
-    
-    while (degrees < fullRevolutionDeg) {
+
+    while (degrees < fullRevolutionDeg)
+    {
         degrees += fullRevolutionDeg;
     }
-    
-    while (degrees > fullRevolutionDeg) {
+
+    while (degrees > fullRevolutionDeg)
+    {
         degrees -= fullRevolutionDeg;
     }
 }
 
 // getters
-double Angle::getDegrees()const
+double Angle::getDegrees() const
 {
     return degrees;
 }
-double Angle::getRadians()const
+double Angle::getRadians() const
 {
     return radians;
 }
@@ -83,8 +89,8 @@ void Angle::reverseRadianAngle()
 
 Angle &Angle::operator=(const Angle &a)
 {
-   radians = a.radians;
-   degrees = a.degrees;
-   this->normalize();
-   return *this;
+    radians = a.radians;
+    degrees = a.degrees;
+    this->normalize();
+    return *this;
 }

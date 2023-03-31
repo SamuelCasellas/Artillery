@@ -14,4 +14,3 @@ class Test
 public:
     void testRunner();
 };
-

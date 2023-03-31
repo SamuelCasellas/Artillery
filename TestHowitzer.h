@@ -16,7 +16,7 @@ class TestHowitzer
 {
 public:
     void run();
-    
+
 private:
     bool determineIfApprox(double expected, double actual);
     void testGetAngle();

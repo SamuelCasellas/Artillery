@@ -29,15 +29,15 @@ Position &Position::operator=(const Position &pt)
 
 void Position::move(double dxMeters, double dyMeters)
 {
-    x += dxMeters;
-    y += dyMeters;
+   x += dxMeters;
+   y += dyMeters;
 }
 
 /******************************************
  * POINT : MOVE
  * Move a point
  *****************************************/
-Position::Position(Position&& other)
+Position::Position(Position &&other)
     : x(std::exchange(other.x, 0.0)),
       y(std::exchange(other.y, 0.0)) {}
 

@@ -7,9 +7,10 @@
 
 #include "howitzer.h"
 
-Howitzer::Howitzer(): ptHowitzer() {}
+Howitzer::Howitzer() : ptHowitzer() {}
 
-void Howitzer::userInput(const Interface * pUI) {
+void Howitzer::userInput(const Interface *pUI)
+{
     double currentR = this->aHowitzer.getRadians();
     // move a large amount
     if (pUI->isRight())
@@ -19,20 +20,22 @@ void Howitzer::userInput(const Interface * pUI) {
 
     // move by a little
     if (pUI->isUp())
-       this->aHowitzer.setRadians(currentR + (currentR >= 0 ? -0.003 : 0.003));
+        this->aHowitzer.setRadians(currentR + (currentR >= 0 ? -0.003 : 0.003));
     if (pUI->isDown())
-       this->aHowitzer.setRadians(currentR + (currentR >= 0 ? 0.003 : -0.003));
+        this->aHowitzer.setRadians(currentR + (currentR >= 0 ? 0.003 : -0.003));
 }
 
-void Howitzer::updateAngle(Angle & a) {
+void Howitzer::updateAngle(Angle &a)
+{
     this->aHowitzer = a;
 }
 
-Angle & Howitzer::getAngle() {
+Angle &Howitzer::getAngle()
+{
     return this->aHowitzer;
 }
 
-Position & Howitzer::getPt()
+Position &Howitzer::getPt()
 {
     return this->ptHowitzer;
 }

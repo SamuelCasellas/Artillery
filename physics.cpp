@@ -81,7 +81,7 @@ double Physics::calculateTotalVelocity(double dx, double dy)
     return sqrt((dx * dx) + (dy * dy));
 }
 
-double Physics::calculateDistance(double s /*x || y*/, double v/*  */, double a/*acceleration*/, double t/*time*/)
+double Physics::calculateDistance(double s /*x || y*/, double v /*  */, double a /*acceleration*/, double t /*time*/)
 {
     return s + v * t + 0.5 * a * t * t;
 }
@@ -110,8 +110,7 @@ const std::map<double, double> Physics::dragMap = {
     {1.990, 0.2897},
     {2.870, 0.2297},
     {2.890, 0.2306},
-    {5.000, 0.2656}
-};
+    {5.000, 0.2656}};
 
 const std::map<int, double> Physics::densityMap = {
     {0, 1.2250000},
@@ -133,8 +132,7 @@ const std::map<int, double> Physics::densityMap = {
     {50000, 0.0010270},
     {60000, 0.0003097},
     {70000, 0.0000828},
-    {80000, 0.0000185}
-};
+    {80000, 0.0000185}};
 
 const std::map<int, int> Physics::speedOfSoundMap = {
     {0, 340},
@@ -152,8 +150,7 @@ const std::map<int, int> Physics::speedOfSoundMap = {
     {20000, 295},
     {25000, 295},
     {30000, 305},
-    {40000, 324}
-};
+    {40000, 324}};
 
 const std::map<int, double> Physics::gravityMap = {
     {0, 9.807},
@@ -169,16 +166,15 @@ const std::map<int, double> Physics::gravityMap = {
     {10000, 9.776},
     {15000, 9.761},
     {20000, 9.745},
-    {25000, 9.730}
-};
+    {25000, 9.730}};
 
 template <typename map_T, typename T1, typename T2>
-std::tuple<T1, T1, T2, T2> Physics::retrieveD01R01(double d /* altitude || mach */, map_T & map)
+std::tuple<T1, T1, T2, T2> Physics::retrieveD01R01(double d /* altitude || mach */, map_T &map)
 {
     std::tuple<T1, T1, T2, T2> d01R01Tuple;
 
     bool withinRange = false;
-    
+
     // Projectile hit the ground
     if (d < 0)
     {
@@ -208,12 +204,13 @@ std::tuple<T1, T1, T2, T2> Physics::retrieveD01R01(double d /* altitude || mach 
         // Lower bound (d0, r0)
         std::get<0>(d01R01Tuple) = it->first;
         std::get<2>(d01R01Tuple) = it->second;
-        
+
         withinRange = true;
         break;
     }
-    
-    if (!withinRange) {
+
+    if (!withinRange)
+    {
         auto it = map.end();
         it--;
         std::get<1>(d01R01Tuple) = std::get<0>(d01R01Tuple) = it->first;
@@ -226,10 +223,13 @@ std::tuple<T1, T1, T2, T2> Physics::retrieveD01R01(double d /* altitude || mach 
 // d == v ; r == c
 double Physics::linearInterpolation(double r0, double r1, double d0, double d1, double d)
 {
-    if (d0 == d1) {
+    if (d0 == d1)
+    {
         // Handle case where d0 and d1 are equal
         return (r0 + r1) / 2.0;
-    } else {
+    }
+    else
+    {
         return (r0 + ((d - d0) * (r1 - r0) / (d1 - d0)));
     }
 }

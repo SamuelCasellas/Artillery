@@ -32,7 +32,7 @@ public:
    Position(const Position &pt) : x(pt.x), y(pt.y) {}
    // Added to help with moving the bullets in the vector
    // May not be needed
-   Position(Position&& other);
+   Position(Position &&other);
    void move(double dxMeters, double dyMeters);
    Position &operator=(const Position &pt);
 

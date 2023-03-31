@@ -16,31 +16,31 @@ using namespace std;
 
 class Angle
 {
-    
+
     const double pi;
     const double fullRevolutionRad;
     const double fullRevolutionDeg;
-    
+
 private:
     double radians;
     double degrees;
-    
+
     double convertToDegrees(double r);
     double convertToRadians(double d);
     void normalize();
-    
+
 public:
     Angle();
-    Angle(Angle & a);
-    
-    Angle(Angle&& other);
-    
-    double getDegrees()const;
-    double getRadians()const;
+    Angle(Angle &a);
+
+    Angle(Angle &&other);
+
+    double getDegrees() const;
+    double getRadians() const;
     void setDegrees(double d);
     void setRadians(double r);
     Angle &operator=(const Angle &a);
-    
+
     void reverseRadianAngle();
 };
 

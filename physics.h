@@ -21,6 +21,7 @@
 class Physics
 {
     friend TestPhysics;
+
 public:
     static double calculateMach(double speed, double speedOfSound);
 
@@ -39,19 +40,17 @@ public:
     static double calculateDistance(double s, double v, double a, double t);
 
     static double kinematicsEquation(double s, double a, double t);
-    
+
     static double linearInterpolation(double r0, double r1, double d0, double d1, double d);
-    
+
 private:
     static const std::map<double, double> dragMap;
     static const std::map<int, double> gravityMap;
     static const std::map<int, double> densityMap;
     static const std::map<int, int> speedOfSoundMap;
-    
+
     template <typename map_T, typename T1, typename T2>
-    static std::tuple<T1, T1, T2, T2> retrieveD01R01(double d /* mach || altitude */, map_T & map);
-    
-    
+    static std::tuple<T1, T1, T2, T2> retrieveD01R01(double d /* mach || altitude */, map_T &map);
 };
 
 #endif /* Physics_h */

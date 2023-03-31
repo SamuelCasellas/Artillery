@@ -19,20 +19,18 @@ class Howitzer
 {
     friend class TestHowitzer;
 
-    
-
 public:
     Howitzer();
-    void userInput(const Interface * pUI);
-    void updateAngle(Angle & a);
+    void userInput(const Interface *pUI);
+    void updateAngle(Angle &a);
 
-    Angle & getAngle();
-    
-    Position & getPt();
+    Angle &getAngle();
+
+    Position &getPt();
 
     // Needs to be public to pass directly to reset method in ground
     Position ptHowitzer;
-    
+
 private:
     Angle aHowitzer;
 };

@@ -11,19 +11,21 @@
 #include "howitzer.h"
 #include "angle.h"
 
-
-void TestHowitzer::run() {
+void TestHowitzer::run()
+{
     testGetAngle();
     testUpdateAngle();
 }
 
-bool TestHowitzer::determineIfApprox(double expected, double actual) {
+bool TestHowitzer::determineIfApprox(double expected, double actual)
+{
     double low = expected - 0.0001;
     double high = expected + 0.0001;
     return (actual > low && actual < high);
 }
 
-void TestHowitzer::testGetAngle() {
+void TestHowitzer::testGetAngle()
+{
     Howitzer h;
     Angle a;
     a.setDegrees(45.0);
@@ -31,7 +33,8 @@ void TestHowitzer::testGetAngle() {
     assert(determineIfApprox(a.getDegrees(), h.getAngle().getDegrees()));
 }
 
-void TestHowitzer::testUpdateAngle() {
+void TestHowitzer::testUpdateAngle()
+{
     Howitzer h;
     Angle a;
     a.setDegrees(45.0);
@@ -41,6 +44,3 @@ void TestHowitzer::testUpdateAngle() {
     h.updateAngle(newAngle);
     assert(determineIfApprox(newAngle.getDegrees(), h.getAngle().getDegrees()));
 }
-
-
-

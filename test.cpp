@@ -24,7 +24,7 @@ void Test::testRunner()
 {
    TestPosition().run();
    TestGround().run();
-    
+
    // Our unit tests //
    TestPhysics().run();
    TestBullet().run();
