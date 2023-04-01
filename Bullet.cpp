@@ -10,15 +10,39 @@
 #include "angle.h"
 #include "ground.h"
 
-Bullet::Bullet() : surfaceArea(0.0), mass(0.0), age(0.0) {}
+#include <cmath>
 
-Bullet::Bullet(double mass, double radius, double initVel, Angle a, Position pos) : mass(mass), surfaceArea(M_PI * radius * radius)
+Bullet::Bullet() : surfaceArea(0.0), mass(0.0), age(0.0), originX(0.0) {}
+
+Bullet::Bullet(double mass, double radius, double initVel, Angle a, Position pos) : mass(mass), surfaceArea(M_PI * radius * radius), originX(pos.getMetersX())
 {
-    // USE THIS CONSTRUCTOR
+    // CONSTRUCTOR FOR TESTING
     this->age = 0.0;
 
     this->aBullet = a;
     this->ptBullet = pos;
+    
+
+    this->totalVelocity = initVel;
+
+    this->dx = this->dy = this->ddx = this->ddy = 0.0;
+
+    // Environmental factors at ground level.
+    double y = pos.getMetersY();
+    this->density = Physics::interpolateDensity(y);           // 1.225 if y = 0
+    this->speedOfSound = Physics::interpolateSpeedOfSound(y); // 340.0
+    this->gravity = Physics::interpolateGravity(y);           // 9.807 = 0
+}
+
+Bullet::Bullet(double mass, double radius, double initVel, Angle a, Position pos, Ground & ground) : mass(mass), surfaceArea(M_PI * radius * radius), originX(pos.getMetersX())
+{
+    // CONSTRUCTOR FOR SIMULATION
+    this->age = 0.0;
+
+    this->aBullet = a;
+    this->ptBullet = pos;
+    
+    this->ground = ground;
 
     this->totalVelocity = initVel;
     
@@ -38,7 +62,7 @@ Bullet::Bullet(Bullet &&other)
       dragCoefficient(other.dragCoefficient), density(other.density), speedOfSound(other.speedOfSound),
       gravity(other.gravity), dragAcceleration(other.dragAcceleration),
       dx(other.dx), dy(other.dy), ddx(other.ddx), ddy(other.ddy),
-      totalVelocity(other.totalVelocity)
+      totalVelocity(other.totalVelocity), originX(other.originX)
 {
     // Move the projectilePath array
     for (int i = 0; i < 20; i++)
@@ -51,12 +75,8 @@ Bullet::Bullet(Bullet &&other)
 
 bool Bullet::hasLanded()
 {
-    Position pos;
-    Ground g(pos);
-    
-//  This is where I thought I'd add the position of the ground, instead of just 0
-    return (this->ptBullet.getMetersY() <= 0);
-//    return (this->ptBullet.getMetersY() <= *(g.ground));
+    double elevationY = ground.getElevationMeters(ptBullet);
+    return (this->ptBullet.getMetersY() <= elevationY);
 }
 
 void Bullet::calculateNextFramesPos()
@@ -74,10 +94,11 @@ void Bullet::calculateNextFramesPos()
         return;
     }
 
-    // Collect all of the data from your tables using a table reading method and your linear interpolation methods**
+    // Collect all environmental data from tables
     double y = ptBullet.getMetersY();
     density = Physics::interpolateDensity(y);
     speedOfSound = Physics::interpolateSpeedOfSound(y);
+    
     // Total acceleration due to gravity (negative)
     gravity = -(Physics::interpolateGravity(y));
 
@@ -90,13 +111,13 @@ void Bullet::calculateNextFramesPos()
 
     dragAcceleration = Physics::calculateAcceleration(dragForce, mass);
 
-    ddx = -Physics::calculateHorizontalComponent(aBullet.getRadians(), dragAcceleration);
+    ddx = -(Physics::calculateHorizontalComponent(aBullet.getRadians(), dragAcceleration));
     ddy = gravity - Physics::calculateVerticalComponent(aBullet.getRadians(), dragAcceleration);
 
     // Keep record of old position (to calculate exact moment of hitting ground)
     Position oldPtBullet(ptBullet);
 
-    // Apply your velocities to your x/y position to update your position
+    // Apply velocities to x/y position to update position
     ptBullet.setMetersX(Physics::calculateDistance(ptBullet.getMetersX(), dx, ddx, t));
     ptBullet.setMetersY(Physics::calculateDistance(ptBullet.getMetersY(), dy, ddy, t));
 
@@ -104,32 +125,17 @@ void Bullet::calculateNextFramesPos()
     dx = Physics::kinematicsEquation(dx, ddx, t);
     dy = Physics::kinematicsEquation(dy, ddy, t);
 
-    // Calculate the new angle
+    // Calculate new angle
     aBullet.setRadians(Physics::calculateAngleFromComponents(dx, dy));
 
-    // Recombine  velocities into total velocity using the pythagorean theorem
+    // Recombine velocities into total velocity using pythagorean theorem
     totalVelocity = Physics::calculateTotalVelocity(dx, dy);
 
     if (hasLanded())
     {
-        double finalDistanceFromOrigin = Physics::linearInterpolation(oldPtBullet.getMetersX(), ptBullet.getMetersX(), oldPtBullet.getMetersY(), ptBullet.getMetersY(), 0.0 /*When y was 0.0*/);
-        double hangTime = Physics::linearInterpolation(age, age + 1, oldPtBullet.getMetersY(), ptBullet.getMetersY(), 0.0 /*When y was 0.0*/);
-
-        cout << "Final distance: " << finalDistanceFromOrigin << endl;
-        cout << "Total hang time: " << hangTime << endl;
+        finalDistanceFromOrigin = fabs(originX - Physics::linearInterpolation(oldPtBullet.getMetersX(), ptBullet.getMetersX(), oldPtBullet.getMetersY(), ptBullet.getMetersY(), 0.0 /*When y was 0.0*/));
+        hangTime = Physics::linearInterpolation(age, age + 1, oldPtBullet.getMetersY(), ptBullet.getMetersY(), 0.0 /*When y was 0.0*/);
     }
-
-    // Output your data
-    cout << ptBullet << "\n";
+    
     age += t;
-}
-
-double Bullet::getAge() const
-{
-    return this->age;
-}
-
-Position Bullet::getPtBullet() const
-{
-    return this->ptBullet;
 }

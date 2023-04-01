@@ -10,6 +10,7 @@
 
 #include "position.h"
 #include "angle.h"
+#include "ground.h"
 
 #include "TestBullet.h"
 #include "TestPhysics.h"
@@ -23,7 +24,12 @@ public:
     int framesSinceLanded = 0;
     // Constructor for move method
     Bullet();
+    
+    // Constructor for testing
     Bullet(double mass, double radius, double initVel, Angle a, Position pos);
+    
+    // Constructor for simulation (hilly terrain)
+    Bullet(double mass, double radius, double initVel, Angle a, Position pos, Ground & ground);
 
     // Move constructor (for push_back method in main)
     Bullet(Bullet &&other);
@@ -33,21 +39,27 @@ public:
 
     Position projectilePath[20];
 
-    // void draw();
     bool hasLanded();
     void calculateNextFramesPos();
 
-    double getAge() const;
+    double getAge() const { return age; }
+    Position getPtBullet() const { return ptBullet; }
     
-    Position getPtBullet()const;
+    double finalDistanceFromOrigin;
+    double hangTime;
 
 private:
     Position ptBullet;
 
     Angle aBullet;
     Angle aDrag;
+    
+    Ground ground;
 
-    double age; // time since firing
+    const double originX;
+    
+    // time since firing
+    double age;
 
     double mach;
     double dragCoefficient;
@@ -58,13 +70,14 @@ private:
 
     double dragAcceleration;
 
-    // dx and dy are the x and y components of the bullet's velocity
+    // velocity
     double dx;
     double dy;
-    // ddx and ddy are the x and y components of the bullet's acceleration
+    
+    // acceleration
     double ddx;
     double ddy;
-    // totalVelocity is the total velocity of the bullet
+    
     double totalVelocity;
 
     // Time interval

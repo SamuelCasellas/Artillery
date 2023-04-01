@@ -59,25 +59,18 @@ void Angle::normalize()
     }
 }
 
-// getters
-double Angle::getDegrees() const
-{
-    return degrees;
-}
-double Angle::getRadians() const
-{
-    return radians;
-}
 // setters
 void Angle::setDegrees(double d)
 {
     degrees = d;
     radians = convertToRadians(d);
+    normalize();
 }
 void Angle::setRadians(double r)
 {
     radians = r;
     degrees = convertToDegrees(r);
+    normalize();
 }
 
 void Angle::reverseRadianAngle()
@@ -91,6 +84,6 @@ Angle &Angle::operator=(const Angle &a)
 {
     radians = a.radians;
     degrees = a.degrees;
-    this->normalize();
+    normalize();
     return *this;
 }

@@ -35,11 +35,18 @@ public:
 
     Angle(Angle &&other);
 
-    double getDegrees() const;
-    double getRadians() const;
+    // getters
+    double getDegrees() const { return degrees; }
+    double getRadians() const { return radians; }
+    
     void setDegrees(double d);
     void setRadians(double r);
     Angle &operator=(const Angle &a);
+    
+    friend std::ostream& operator<<(std::ostream& os, const Angle& ang) {
+        os << ang.getDegrees();
+        return os;
+    }
 
     void reverseRadianAngle();
 };
