@@ -33,6 +33,7 @@ void Position::move(double dxMeters, double dyMeters)
    y += dyMeters;
 }
 
+
 /******************************************
  * POINT : MOVE
  * Move a point

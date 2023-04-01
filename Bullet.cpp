@@ -8,6 +8,7 @@
 #include "bullet.h"
 #include "physics.h"
 #include "angle.h"
+#include "ground.h"
 
 Bullet::Bullet() : surfaceArea(0.0), mass(0.0), age(0.0) {}
 
@@ -20,6 +21,7 @@ Bullet::Bullet(double mass, double radius, double initVel, Angle a, Position pos
     this->ptBullet = pos;
 
     this->totalVelocity = initVel;
+    
 
     this->dx = this->dy = this->ddx = this->ddy = 0.0;
 
@@ -49,7 +51,12 @@ Bullet::Bullet(Bullet &&other)
 
 bool Bullet::hasLanded()
 {
+    Position pos;
+    Ground g(pos);
+    
+//  This is where I thought I'd add the position of the ground, instead of just 0
     return (this->ptBullet.getMetersY() <= 0);
+//    return (this->ptBullet.getMetersY() <= *(g.ground));
 }
 
 void Bullet::calculateNextFramesPos()

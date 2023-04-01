@@ -16,7 +16,7 @@ const int WIDTH_HOWITZER = 14;
 const double MIN_ALTITUDE = 300.0;  // min altitude is at 984'
 const double MAX_ALTITUDE = 3000.0; // max altitude is 3,000m or 9842.52ft
 const double MAX_SLOPE = 1.0;       // steapness of the features. Smaller number is flatter
-const double LUMPINESS = 0.15;      // size of the hills. Smaller number is bigger features
+const double LUMPINESS = 0.40;      // size of the hills. Smaller number is bigger features
 const double TEXTURE = 3.0;         // size of the small features such as rocks
 
 /************************************************************************
@@ -89,6 +89,7 @@ void Ground ::reset(Position &posHowitzer)
    // give each location on the ground an elevation
    ground[0] = posMinimum.getPixelsY(); // the initial elevation is low
    double dy = MAX_SLOPE / 2.0;         // the initial slope is heavily biased to up
+    
    for (int i = 1; i < width; i++)
    {
       // put the howitzer on flat ground

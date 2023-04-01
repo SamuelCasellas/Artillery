@@ -186,7 +186,7 @@ void ogstream ::drawRectangle(const Position &begin, const Position &end,
  ***********************************************************************/
 void ogstream ::drawTarget(const Position &pos)
 {
-   double size = 10.0;
+   double size = 15.0;
 
    // set up to draw a solid rectangle
    glBegin(GL_QUADS);

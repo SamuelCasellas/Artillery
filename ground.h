@@ -23,6 +23,8 @@ class Ground
 {
 public:
    // the constructor generates the ground
+    friend TestGround;
+
    Ground(const Position &posUpperRight);
    Ground() : ground(nullptr), iHowitzer(0), iTarget(0) {}
 
@@ -37,13 +39,13 @@ public:
 
    // where the the target located?
    Position getTarget() const;
-
+    
    // unit test access
-   friend TestGround;
+
 
 private:
+   int iTarget;            // the location of the target, in pixels
    double *ground;         // elevation of the ground, in pixels
    int iHowitzer;          // the location of the howitzer, in pixels
-   int iTarget;            // the location of the target, in pixels
    Position posUpperRight; // size of the screen
 };

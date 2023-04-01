@@ -63,6 +63,8 @@ public:
       this->metersFromPixels = metersFromPixels;
    }
    double getZoom() const { return metersFromPixels; }
+    
+
 
 private:
    double x; // horizontal position
