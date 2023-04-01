@@ -54,10 +54,10 @@ bool Bullet::hasLanded()
 
 void Bullet::calculateNextFramesPos()
 {
-    // Only calculate initial vel at moment of firing
+    // Only calculate initial velocity at moment of firing
     if (age == 0)
     {
-        // Break down the initial vel to horizontal and vertical components
+        // Break down the initial velocity to horizontal and vertical components
         dx = Physics::calculateHorizontalComponent(aBullet.getRadians(), totalVelocity);
         dy = Physics::calculateVerticalComponent(aBullet.getRadians(), totalVelocity);
     }
@@ -67,15 +67,15 @@ void Bullet::calculateNextFramesPos()
         return;
     }
 
-    /// Collect all of the data from your tables using a table reading method and your linear interpolation methods**
+    // Collect all of the data from your tables using a table reading method and your linear interpolation methods**
     double y = ptBullet.getMetersY();
     density = Physics::interpolateDensity(y);
     speedOfSound = Physics::interpolateSpeedOfSound(y);
     // Total acceleration due to gravity (negative)
     gravity = -(Physics::interpolateGravity(y));
 
-    /// Apply the necessary data to drag coefficient equation
-    /// This drag force is the total acceleration being applied to the projectile
+    // Apply the necessary data to drag coefficient equation
+    // This drag force is the total acceleration being applied to the projectile
     mach = Physics::calculateMach(totalVelocity, speedOfSound);
     dragCoefficient = Physics::interpolateDragCoefficient(mach);
 
@@ -89,7 +89,7 @@ void Bullet::calculateNextFramesPos()
     // Keep record of old position (to calculate exact moment of hitting ground)
     Position oldPtBullet(ptBullet);
 
-    /// Apply your velocities to your x/y position to update your position
+    // Apply your velocities to your x/y position to update your position
     ptBullet.setMetersX(Physics::calculateDistance(ptBullet.getMetersX(), dx, ddx, t));
     ptBullet.setMetersY(Physics::calculateDistance(ptBullet.getMetersY(), dy, ddy, t));
 
@@ -97,10 +97,10 @@ void Bullet::calculateNextFramesPos()
     dx = Physics::kinematicsEquation(dx, ddx, t);
     dy = Physics::kinematicsEquation(dy, ddy, t);
 
-    /// Calculate the new angle
+    // Calculate the new angle
     aBullet.setRadians(Physics::calculateAngleFromComponents(dx, dy));
 
-    /// Recombine  velocities into total velocity using the pythagorean theorem
+    // Recombine  velocities into total velocity using the pythagorean theorem
     totalVelocity = Physics::calculateTotalVelocity(dx, dy);
 
     if (hasLanded())

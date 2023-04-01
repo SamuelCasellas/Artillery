@@ -38,7 +38,6 @@ double Physics::calculateMach(double speed, double speedOfSound)
 
 // Drag Force Equation
 // d = 1/2 c * p * v^2 * a
-// This will need to be adjusted since Drag and coefficient are the variables we already have.
 
 double Physics::calculateDragForce(double coefficient, double p /*air density*/, double v, double a)
 {
