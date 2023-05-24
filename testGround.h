@@ -194,7 +194,7 @@ private:
       setupStandardFixture(g);
       ogstreamSpy goutSpy;
       // exercise
-      g.draw(goutSpy);
+      g.draw(goutSpy, false);
       // verify
       assert(goutSpy.targets.size() == 1);
       assert(0 <= goutSpy.targets.front().getPixelsX() && goutSpy.targets.front().getPixelsX() < 10);

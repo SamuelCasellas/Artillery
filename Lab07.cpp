@@ -134,7 +134,7 @@ void callBack(const Interface *pUI, void *p)
     ogstream gout(Position(10.0, pDemo->ptUpperRight.getPixelsY() - 20.0));
 
     // draw the ground first
-    pDemo->ground.draw(gout);
+    pDemo->ground.draw(gout, pDemo->hasWon);
 
     // draw the howitzer
     gout.drawHowitzer(pDemo->howitzer.getPt(), pDemo->howitzer.getAngle().getRadians(), pDemo->time);

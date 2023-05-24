@@ -32,7 +32,7 @@ public:
    void reset(Position &posHowitzer);
 
    // draw the ground on the screen
-   void draw(ogstream &gout) const;
+   void draw(ogstream &gout, bool hasWon) const;
 
    // determine how high the Position is off the ground
    double getElevationMeters(const Position &pos) const;

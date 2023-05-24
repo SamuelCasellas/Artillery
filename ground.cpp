@@ -126,7 +126,7 @@ void Ground ::reset(Position &posHowitzer)
  * GROUND :: DRAW
  * Draw the ground on the screen
  ****************************************************************/
-void Ground::draw(ogstream &gout) const
+void Ground::draw(ogstream &gout, bool hasWon) const
 {
    // put the meter markers along the side
    for (Position pos(0.0, 1000.0); pos.getPixelsY() < posUpperRight.getPixelsY(); pos.addMetersY(1000.0))
@@ -150,9 +150,11 @@ void Ground::draw(ogstream &gout) const
    }
 
    // draw the target
-   Position posTarget = getTarget();
-   gout.drawTarget(posTarget);
-
+    if (!hasWon) {
+        Position posTarget = getTarget();
+        gout.drawTarget(posTarget);
+    }
+   
    // put the kilometer markers along the bottom
    for (Position pos(1000.0, 0.0); pos.getPixelsX() < posUpperRight.getPixelsX(); pos.addMetersX(1000.0))
    {
